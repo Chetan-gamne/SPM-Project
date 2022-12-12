@@ -1,0 +1,54 @@
+<html>
+
+<head>
+    <meta charset='utf-8' />
+    <title></title>
+    <style>
+        .card {
+            height: auto;
+            position: relative;
+            padding: 10px;
+            box-sizing: border-box;
+            display: flex;
+            align-items: flex-end;
+            text-decoration: none;
+            border: 2px solid black;
+            margin-bottom: 20px;
+        }
+
+        .inner {
+            height: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            /* align-items: center; */
+            background: white;
+            box-sizing: border-box;
+            padding: 40px;
+
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class='card'>
+        <div class='inner'>
+            <p>Hello, <b>{{superHero.name}}</b></p>
+            <br>
+            <p>Your order is successfully placed.</p><br>
+            <b>Order Details :</b>
+            <ul>
+                <li>Floor Quatity : {{superHero.qty}}</li>
+                <li>Floor Type : {{superHero.type}}</li>
+                <li>Floor Price : {{superHero.price}}</li>
+                <li>Estimated Time : {{superHero.time}}</li>
+                <li>Pickup Location : {{superHero.location}}</li>
+            </ul>
+            <br>
+            <p>Thank You, <b>Visit Again !!!</b></p>
+        </div>
+    </div>
+</body>
+
+</html>

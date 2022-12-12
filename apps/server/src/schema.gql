@@ -1,0 +1,38 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Book {
+  id: Int!
+  title: String!
+  price: Int!
+}
+
+type RegisterDTO {
+  msg: String!
+}
+
+type UserDto {
+  _id: String!
+  _rev: String!
+  _key: String!
+  email: String!
+}
+
+type Query {
+  getAllBooks: [Book!]!
+  me: UserDto!
+}
+
+type Mutation {
+  register(createUser: CreateUserInput!): RegisterDTO!
+  verify: UserDto!
+  forgotPassword(email: String!): RegisterDTO!
+  resetPassword(newPassword: String!): RegisterDTO!
+}
+
+input CreateUserInput {
+  email: String!
+  name: String!
+  password: String!
+}

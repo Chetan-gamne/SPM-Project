@@ -1,0 +1,1 @@
+{"version":3,"file":"mail.controller.d.ts","sourceRoot":"","sources":["../../src/mail/mail.controller.ts"],"names":[],"mappings":"AACA,OAAO,EAAE,aAAa,EAAE,MAAM,wBAAwB,CAAC;AAEvD,qBACa,cAAc;IACX,OAAO,CAAC,WAAW;gBAAX,WAAW,EAAE,aAAa;IAGxC,aAAa,CAAS,OAAO,EAAC,GAAG;CAY1C"}
