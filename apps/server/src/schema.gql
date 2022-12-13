@@ -8,7 +8,7 @@ type Book {
   price: Int!
 }
 
-type RegisterDTO {
+type ResponseDTO {
   msg: String!
 }
 
@@ -16,7 +16,11 @@ type UserDto {
   _id: String!
   _rev: String!
   _key: String!
+  name: String!
   email: String!
+  address: String!
+  phoneNumber: String!
+  accounCreatedDate: String!
 }
 
 type Query {
@@ -25,14 +29,16 @@ type Query {
 }
 
 type Mutation {
-  register(createUser: CreateUserInput!): RegisterDTO!
+  register(createUser: CreateUserInput!): ResponseDTO!
   verify: UserDto!
-  forgotPassword(email: String!): RegisterDTO!
-  resetPassword(newPassword: String!): RegisterDTO!
+  forgotPassword(email: String!): ResponseDTO!
+  resetPassword(newPassword: String!): ResponseDTO!
 }
 
 input CreateUserInput {
   email: String!
   name: String!
   password: String!
+  address: String!
+  phoneNumber: String!
 }

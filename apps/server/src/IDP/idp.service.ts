@@ -30,6 +30,7 @@ export class IDPService {
     });
   }
 
+  // To Verify JWT Token returns decoded payload
   async verify(token): Promise<any> {
     try {
       const decodedToken = await this.defaultApp
@@ -41,15 +42,7 @@ export class IDPService {
     }
   }
 
-  private accessDenied(url: string, res: Response) {
-    res.status(403).json({
-      statusCode: 403,
-      timestamp: new Date().toISOString(),
-      path: url,
-      message: 'Access Denied',
-    });
-  }
-
+  // To Create User with provided data return back created userRecord
   async createUser(data): Promise<any> {
     try {
       const userRecord = await this.defaultApp.auth().createUser(data);
@@ -60,13 +53,9 @@ export class IDPService {
         HttpStatus.NOT_ACCEPTABLE,
       );
     }
-    // return await this.defaultApp
-    //   .auth()
-    //   .createUser(data)
-    //   .then((UserRecord) => UserRecord)
-    //   .catch((error) => console.log('idpError' + error));
   }
 
+  // To ResetPassword with given uid and newPassword return updated UserRecord
   async resetPassword(uid, data): Promise<any> {
     try {
       const userRecord = await this.defaultApp.auth().updateUser(uid, data);
@@ -77,14 +66,9 @@ export class IDPService {
         HttpStatus.NOT_ACCEPTABLE,
       );
     }
-
-    // return await this.defaultApp
-    //   .auth()
-    //   .updateUser(uid, data)
-    //   .then((userRecord) => userRecord)
-    //   .catch((error) => console.log(error));
   }
 
+  // To forgot password:1.send an email 2.New Password Set  through Link 3.Return msg
   async forgotPassword(email: string): Promise<any> {
     try {
       const link = await this.defaultApp
@@ -107,23 +91,18 @@ export class IDPService {
         HttpStatus.BAD_REQUEST,
       );
     }
-    // return await this.defaultApp
-    //   .auth()
-    //   .generatePasswordResetLink(email, actionCodeSettings)
-    //   .then(async (link) => {
-    //     console.log(link);
-    //     return await this.mailService
-    //       .sendMail({
-    //         to: email,
-    //         from: 'spmprojectdemo@gmail.com',
-    //         subject: 'Forgot Password',
-    //         template: 'forgotPassword',
-    //         context: {
-    //           forgot: { link: link },
-    //         },
-    //       })
-    //       .then(() => ({ msg: 'mail has been sent Successfully. Review' }))
-    //       .catch((error) => console.log(error));
-    //   });
+  }
+
+  // To delete User with given uid return user has been deleted msg
+  async deleteUser(uid: string): Promise<any> {
+    try {
+      const response = await this.defaultApp.auth().deleteUser(uid);
+      return response;
+    } catch (error) {
+      throw new HttpException(
+        'Unable to Delete User!',
+        HttpStatus.NOT_ACCEPTABLE,
+      );
+    }
   }
 }
