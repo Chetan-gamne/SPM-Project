@@ -11,12 +11,18 @@ export class UserDto {
   @Field()
   _key: string;
 
-  // @Field()
-  // name: string;
+  @Field()
+  name: string;
 
   @Field()
   email: string;
 
-  // @Field()
-  // user_id: string;
+  @Field()
+  address: string;
+
+  @Field()
+  phoneNumber: string;
+
+  @Field()
+  accounCreatedDate: string;
 }

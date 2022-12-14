@@ -13,9 +13,9 @@ export class GqlAuthGuard implements CanActivate {
   constructor(private authService: AuthService) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    console.log('Hello all');
     const ctx = GqlExecutionContext.create(context).getContext();
     const token = ctx.req.headers.authorization;
+    // console.log(token);
     if (!token) {
       throw new HttpException('Not Authenticated', HttpStatus.UNAUTHORIZED);
     }

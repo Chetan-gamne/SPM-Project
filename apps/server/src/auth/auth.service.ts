@@ -1,9 +1,9 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { Database } from 'arangojs';
 import { DocumentCollection } from 'arangojs/collection';
+import { CreateUserInput } from './dto/createUser.input';
 import { BaseService } from 'src/database/base.service';
 import { IDPService } from 'src/IDP/idp.service';
-import { CreateUserDto } from './dto/createUser.dto';
 @Injectable()
 export class AuthService extends BaseService {
   constructor(
@@ -15,37 +15,41 @@ export class AuthService extends BaseService {
 
   collection: DocumentCollection = this.db.collection('users');
 
-  async signup(user: CreateUserDto) {
+  // To SignUp User : Calls createUser method in IDPService return msg
+  async signup(user: CreateUserInput) {
     try {
-      const userRecord = await this.IDPService.createUser(user);
-      await console.log(userRecord.uid);
       const { password, ...result } = user;
-
-      await this.insertOne({ ...result, _key: userRecord.uid });
+      // firebase Registeration
+      const userRecord = await this.IDPService.createUser(user);
+      const { uid, metadata, phoneNumber } = userRecord;
+      const record = {
+        _key: uid,
+        ...result,
+        phoneNumber: phoneNumber,
+        accountCreatedDate: metadata.creationTime,
+        roles: ['user'],
+      };
+      try {
+        await this.insertOne(record);
+      } catch (error) {
+        const response = await this.IDPService.deleteUser(userRecord.uid);
+        throw error;
+      }
       return { msg: 'User Created Successfully!' };
-      // .then(async (userRecord) => {
-      //   console.log('Successfully created new user:', userRecord.uid);
-      //   try {
-      //     const { password, ...result } = user;
-      //     await this.insertOne({ ...result, _key: userRecord.uid });
-      //     return { msg: 'User Created Successfully!' };
-      //   } catch (error) {
-      //     console.log('signup' + error);
-      //     throw new HttpException('Unable To Sign Up', HttpStatus.BAD_GATEWAY);
-      //   }
-      // });
     } catch (error) {
       throw new HttpException('Unable to Register', HttpStatus.BAD_REQUEST);
     }
   }
 
+  // To Verify token returns an decoded payload
   async verifyByToken(token) {
     return await this.IDPService.verify(token);
   }
+
+  // To update Password with uid and data return message;
   async updatePassowrd(uid, data) {
     try {
       const user = await this.IDPService.resetPassword(uid, data);
-      console.log('Successfully updated User : ', user.user_id);
       return { msg: 'Successfully Updated Password of user' };
     } catch (error) {
       throw new HttpException(
@@ -55,15 +59,16 @@ export class AuthService extends BaseService {
     }
   }
 
+  // To ForgotPassword with given email
   async forgotPassword(email: string) {
     const msg = await this.IDPService.forgotPassword(email);
     return msg;
   }
 
+  // To return current login user data
   async meData(userId: string) {
     try {
       const user = await this.getByKey(userId);
-      console.log(user);
       return user;
     } catch (error) {
       throw new HttpException('User Not Found', HttpStatus.NOT_FOUND);

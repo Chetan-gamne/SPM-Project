@@ -1,17 +1,17 @@
 import { Database } from 'arangojs';
+import { constants } from 'src/server.constants';
 
-// import { DB_CONNECTION_TOKEN, SERVER_CONFIG } from '../../server.constants';
+const { DB_HOSTURL, DB_NAME, DB_PASSWORD, DB_USERNAME } = constants.database;
 
-// import {Shared} from '@nestjs/core';
 export const databaseProviders = [
   {
-    provide: 'http://127.0.0.1:8529',
+    provide: DB_HOSTURL,
     useFactory: () => {
       const db = new Database({
-        url: 'http://127.0.0.1:8529',
-        databaseName: 'SPM',
+        url: DB_HOSTURL,
+        databaseName: DB_NAME,
       });
-      db.useBasicAuth('root', '');
+      db.useBasicAuth(DB_USERNAME, DB_PASSWORD);
       return db;
     },
   },

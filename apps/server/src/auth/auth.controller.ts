@@ -1,17 +1,14 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Controller, Get, Post, Req, Res } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { CreateUserDto } from './dto/createUser.dto';
+import { Request, Response, response } from 'express';
+
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(private readonly appService: AuthService) {}
 
-  @Post('/signup')
-  addUser(@Body() user: CreateUserDto) {
-    return this.authService.signup(user);
-  }
-
-  @Get('/signin')
-  getUser() {
-    return 'Hello Promo';
+  @Post('/login')
+  getHello(@Req() request: Request, @Res() response: Response): string {
+    // return response.cookie("");
+    return 'Hello';
   }
 }

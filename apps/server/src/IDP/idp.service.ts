@@ -3,20 +3,34 @@ import { HttpException, HttpStatus, Injectable, Scope } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
 import * as firebase from 'firebase-admin';
 import { actionCodeSettings } from './constants/action-code';
-import * as serviceAccount from './firebaseServiceAccount.json';
+import { constants } from 'src/server.constants';
+
+const {
+  FIREBASE_TYPE,
+  FIREBASE_PROJECT_ID,
+  FIREBASE_PRIVATE_KEY_ID,
+  FIREBASE_PRIVATE_KEY,
+  FIREBASE_AUTH_PROVIDER_X509,
+  FIREBASE_AUTH_URI,
+  FIREBASE_CLIENT_EMAIL,
+  FIREBASE_CLIENT_ID,
+  FIREBASE_CLIENT_X509,
+  FIREBASE_TOKEN_URI,
+} = constants.firebaseConfig;
 
 const firebase_params = {
-  type: serviceAccount.type,
-  project_id: serviceAccount.project_id,
-  private_key_id: serviceAccount.private_key_id,
-  private_key: serviceAccount.private_key,
-  client_email: serviceAccount.client_email,
-  client_id: serviceAccount.client_id,
-  auth_uri: serviceAccount.auth_uri,
-  token_uri: serviceAccount.token_uri,
-  auth_provider_x509_cert_url: serviceAccount.auth_provider_x509_cert_url,
-  client_x509_cert_url: serviceAccount.client_x509_cert_url,
+  type: FIREBASE_TYPE,
+  projectId: FIREBASE_PROJECT_ID,
+  privateKeyId: FIREBASE_PRIVATE_KEY_ID,
+  privateKey: FIREBASE_PRIVATE_KEY,
+  clientEmail: FIREBASE_CLIENT_EMAIL,
+  clientId: FIREBASE_CLIENT_ID,
+  authUri: FIREBASE_AUTH_URI,
+  tokenUri: FIREBASE_TOKEN_URI,
+  authProviderX509CertUrl: FIREBASE_AUTH_PROVIDER_X509,
+  clientC509CertUrl: FIREBASE_CLIENT_X509,
 };
+
 @Injectable()
 export class IDPService {
   private defaultApp: any;
@@ -30,6 +44,7 @@ export class IDPService {
     });
   }
 
+  // To Verify JWT Token returns decoded payload
   async verify(token): Promise<any> {
     try {
       const decodedToken = await this.defaultApp
@@ -41,15 +56,7 @@ export class IDPService {
     }
   }
 
-  private accessDenied(url: string, res: Response) {
-    res.status(403).json({
-      statusCode: 403,
-      timestamp: new Date().toISOString(),
-      path: url,
-      message: 'Access Denied',
-    });
-  }
-
+  // To Create User with provided data return back created userRecord
   async createUser(data): Promise<any> {
     try {
       const userRecord = await this.defaultApp.auth().createUser(data);
@@ -60,13 +67,9 @@ export class IDPService {
         HttpStatus.NOT_ACCEPTABLE,
       );
     }
-    // return await this.defaultApp
-    //   .auth()
-    //   .createUser(data)
-    //   .then((UserRecord) => UserRecord)
-    //   .catch((error) => console.log('idpError' + error));
   }
 
+  // To ResetPassword with given uid and newPassword return updated UserRecord
   async resetPassword(uid, data): Promise<any> {
     try {
       const userRecord = await this.defaultApp.auth().updateUser(uid, data);
@@ -77,14 +80,9 @@ export class IDPService {
         HttpStatus.NOT_ACCEPTABLE,
       );
     }
-
-    // return await this.defaultApp
-    //   .auth()
-    //   .updateUser(uid, data)
-    //   .then((userRecord) => userRecord)
-    //   .catch((error) => console.log(error));
   }
 
+  // To forgot password:1.send an email 2.New Password Set  through Link 3.Return msg
   async forgotPassword(email: string): Promise<any> {
     try {
       const link = await this.defaultApp
@@ -107,23 +105,18 @@ export class IDPService {
         HttpStatus.BAD_REQUEST,
       );
     }
-    // return await this.defaultApp
-    //   .auth()
-    //   .generatePasswordResetLink(email, actionCodeSettings)
-    //   .then(async (link) => {
-    //     console.log(link);
-    //     return await this.mailService
-    //       .sendMail({
-    //         to: email,
-    //         from: 'spmprojectdemo@gmail.com',
-    //         subject: 'Forgot Password',
-    //         template: 'forgotPassword',
-    //         context: {
-    //           forgot: { link: link },
-    //         },
-    //       })
-    //       .then(() => ({ msg: 'mail has been sent Successfully. Review' }))
-    //       .catch((error) => console.log(error));
-    //   });
+  }
+
+  // To delete User with given uid return user has been deleted msg
+  async deleteUser(uid: string): Promise<any> {
+    try {
+      const response = await this.defaultApp.auth().deleteUser(uid);
+      return response;
+    } catch (error) {
+      throw new HttpException(
+        'Unable to Delete User!',
+        HttpStatus.NOT_ACCEPTABLE,
+      );
+    }
   }
 }
