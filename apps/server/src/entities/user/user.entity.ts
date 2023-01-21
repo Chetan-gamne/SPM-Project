@@ -7,7 +7,7 @@ export class User {
     sName: string;
   };
   email: string;
-  phoneNumber: Number;
+  phoneNumber: number;
   address: string;
   createdOn: Date;
   roles: string[];

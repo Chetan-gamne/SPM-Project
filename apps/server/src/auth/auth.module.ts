@@ -1,14 +1,12 @@
 import { Module } from '@nestjs/common';
-import { DatabaseModule } from 'src/database/database.module';
-import { IDPModule } from 'src/IDP/idp.module';
+import constants from 'src/idp/constants';
+import { IDPModule } from 'src/idp/idp.module';
 import { AuthResolver } from './auth.resolver';
 import { AuthService } from './auth.service';
 import { GqlAuthGuard } from './gql-auth.guard';
 
 @Module({
-  imports: [IDPModule, DatabaseModule],
-  controllers: [],
-  providers: [GqlAuthGuard, AuthService, AuthResolver],
-  exports: [AuthService],
+  imports: [IDPModule.forRoot(constants.IDENTITY_PROVIDER_FIREBASE)],
+  providers: [AuthResolver, GqlAuthGuard, AuthService],
 })
 export class AuthModule {}

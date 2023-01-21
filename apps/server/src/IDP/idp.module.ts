@@ -1,12 +1,17 @@
-import { Module } from '@nestjs/common';
-import { AuthModule } from 'src/auth/auth.module';
-import { MailModule } from 'src/mail/mail.module';
-import { IDPService } from './idp.service';
-
+import { Module, DynamicModule } from '@nestjs/common';
+import { getIdentityProvider } from '.';
 @Module({
-  imports: [MailModule],
+  imports: [],
   controllers: [],
-  providers: [IDPService],
-  exports: [IDPService],
+  providers: [],
 })
-export class IDPModule {}
+export class IDPModule {
+  static forRoot(provider: string): DynamicModule {
+    const services = getIdentityProvider(provider);
+    return {
+      module: IDPModule,
+      providers: services,
+      exports: services,
+    };
+  }
+}

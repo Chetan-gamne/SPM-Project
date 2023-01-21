@@ -6,14 +6,8 @@ export class CreateUserInput {
   email: string;
 
   @Field()
-  name: string;
-
-  @Field()
   password: string;
 
   @Field()
-  address: string;
-
-  @Field()
-  phoneNumber: string;
+  phone: string;
 }

@@ -1,49 +1,54 @@
+import { Args, Resolver, Mutation, Query, Context } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
-import { Args, Int, Mutation, Resolver, Query, Context } from '@nestjs/graphql';
-import { AuthService } from './auth.service';
-import { CreateUserInput } from './dto/createUser.input';
-import { ResponseDTO } from './dto/register.dto';
-import { UserDto } from './dto/user.dto';
+import { CreateUserInput } from './dto/input/createUser.input';
+import { RegisterResponseDTO } from './dto/response/register.dto';
 import { GqlAuthGuard } from './gql-auth.guard';
-@Resolver()
+import { UserDto } from './dto/user.dto';
+import { AuthService } from './auth.service';
+import { ResponseDTO } from './dto/response.dto';
+
+@Resolver('auth')
 export class AuthResolver {
   constructor(private AuthService: AuthService) {}
 
-  // Mutation for Register
-  @Mutation(() => ResponseDTO)
+  //Mutatation for Registration of new user
+  @Mutation(() => RegisterResponseDTO)
   register(@Args('createUser') args: CreateUserInput) {
-    return this.AuthService.signup(args);
+    try {
+      let data = {
+        ...args,
+        emailVerified: false,
+        claims: {},
+      };
+      return this.AuthService.register(data);
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
   }
 
-  // Mutation for Verify
-  @Mutation(() => UserDto)
-  @UseGuards(GqlAuthGuard)
-  verify(@Context('user') user: any) {
-    return user;
-  }
-
-  // Mutation for Forgot Password
   @Mutation(() => ResponseDTO)
-  forgotPassword(@Args({ name: 'email' }) email: string) {
+  @UseGuards(GqlAuthGuard)
+  verify(@Context() ctx: any) {
+    return this.AuthService.verifyEmail(ctx.req.user.email);
+  }
+
+  @Mutation(() => ResponseDTO)
+  forgotPassword(@Args('email') email: string) {
     return this.AuthService.forgotPassword(email);
   }
 
-  // Mutation for ResetPassword
   @Mutation(() => ResponseDTO)
   @UseGuards(GqlAuthGuard)
-  resetPassword(
-    @Args({ name: 'newPassword' }) newPassword: string,
-    @Context('user') user: any,
-  ) {
-    return this.AuthService.updatePassowrd(user.user_id, {
-      password: newPassword,
+  resetPassword(@Context() ctx: any, @Args('password') password: string) {
+    return this.AuthService.resetPassword(ctx.req.user.email, {
+      password: password,
     });
   }
 
-  // Me Query Return Currently Sign in User
-  @Query((returns) => UserDto)
+  @Query(() => UserDto)
   @UseGuards(GqlAuthGuard)
-  me(@Context('user') user: any) {
-    return this.AuthService.meData(user.user_id);
+  me(@Context() ctx: any) {
+    return ctx.req.user;
   }
 }

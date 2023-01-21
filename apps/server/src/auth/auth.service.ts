@@ -1,77 +1,78 @@
-import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
-import { Database } from 'arangojs';
-import { DocumentCollection } from 'arangojs/collection';
-import { CreateUserInput } from './dto/createUser.input';
-import { BaseService } from 'src/database/base.service';
-import { IDPService } from 'src/IDP/idp.service';
+import { Inject, Injectable } from '@nestjs/common';
+import constants from 'src/idp/constants';
+import {
+  IdpUser,
+  IIdentityProviderService,
+  IUpdateUserRequest,
+} from 'src/idp/types';
+import { CreateUserInput } from './dto/input/createUser.input';
+import { ResponseDTO } from './dto/response.dto';
+
 @Injectable()
-export class AuthService extends BaseService {
+export class AuthService {
   constructor(
-    @Inject('http://127.0.0.1:8529') private readonly db: Database,
-    private IDPService: IDPService,
-  ) {
-    super();
-  }
+    @Inject(constants.IDENTITY_PROVIDER_SERVICE)
+    private IDPService: IIdentityProviderService,
+  ) {}
 
-  collection: DocumentCollection = this.db.collection('users');
-
-  // To SignUp User : Calls createUser method in IDPService return msg
-  async signup(user: CreateUserInput) {
+  async register(args: CreateUserInput): Promise<IdpUser | null> {
     try {
-      const { password, ...result } = user;
-      // firebase Registeration
-      const userRecord = await this.IDPService.createUser(user);
-      const { uid, metadata, phoneNumber } = userRecord;
-      const record = {
-        _key: uid,
-        ...result,
-        phoneNumber: phoneNumber,
-        accountCreatedDate: metadata.creationTime,
-        roles: ['user'],
+      let data = {
+        ...args,
+        emailVerified: false,
+        claims: {},
       };
-      try {
-        await this.insertOne(record);
-      } catch (error) {
-        const response = await this.IDPService.deleteUser(userRecord.uid);
-        throw error;
+      return this.IDPService.createUser(data);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async verifyEmail(email: string): Promise<ResponseDTO | null> {
+    try {
+      const url = await this.IDPService.generateEmailVerificationLink(email);
+      if (!url) {
+        console.log('in block');
+        throw new Error(
+          'Unable to Generate Link at this moment! try again latter',
+        );
       }
-      return { msg: 'User Created Successfully!' };
+      // Logic to send mail through mail module
+      let result: ResponseDTO = { msg: url };
+      return result;
     } catch (error) {
-      throw new HttpException('Unable to Register', HttpStatus.BAD_REQUEST);
+      throw error;
     }
   }
 
-  // To Verify token returns an decoded payload
-  async verifyByToken(token) {
-    return await this.IDPService.verify(token);
-  }
-
-  // To update Password with uid and data return message;
-  async updatePassowrd(uid, data) {
+  async forgotPassword(email: string): Promise<ResponseDTO | null> {
     try {
-      const user = await this.IDPService.resetPassword(uid, data);
-      return { msg: 'Successfully Updated Password of user' };
+      const url = await this.IDPService.generatePasswordResetLink(email);
+      // Logic to send mail through mail module
+      if (!url) {
+        throw new Error(
+          'Unable to Generate Link at this moment! try again latter',
+        );
+      }
+
+      let result: ResponseDTO = { msg: url };
+      return result;
     } catch (error) {
-      throw new HttpException(
-        'Unable To update Password At this Moment Try again Later',
-        HttpStatus.BAD_GATEWAY,
-      );
+      throw error;
     }
   }
 
-  // To ForgotPassword with given email
-  async forgotPassword(email: string) {
-    const msg = await this.IDPService.forgotPassword(email);
-    return msg;
-  }
-
-  // To return current login user data
-  async meData(userId: string) {
+  async resetPassword(
+    email: string,
+    request: IUpdateUserRequest,
+  ): Promise<ResponseDTO | null> {
     try {
-      const user = await this.getByKey(userId);
-      return user;
+      let user = await this.IDPService.getUserByEmail(email);
+      await this.IDPService.updateUser(user.id, request);
+      let result: ResponseDTO = { msg: 'Password Updated SuccessFully' };
+      return result;
     } catch (error) {
-      throw new HttpException('User Not Found', HttpStatus.NOT_FOUND);
+      throw error;
     }
   }
 }

@@ -10,47 +10,46 @@
 
 export class CreateUserInput {
     email: string;
-    name: string;
     password: string;
-    address: string;
-    phoneNumber: string;
+    phone: string;
 }
 
-export class Book {
-    id: number;
-    title: string;
-    price: number;
+export class IClaims {
+    cs?: Nullable<string[]>;
+    admin?: Nullable<string[]>;
 }
 
-export class ResponseDTO {
-    msg: string;
+export class RegisterResponseDTO {
+    id: string;
+    email: string;
+    claims?: Nullable<IClaims>;
+    isEnabled?: Nullable<boolean>;
 }
 
 export class UserDto {
-    _id: string;
-    _rev: string;
-    _key: string;
     name: string;
     email: string;
-    address: string;
-    phoneNumber: string;
-    accounCreatedDate: string;
+    uid: string;
+    email_verified: boolean;
+    phone_number?: Nullable<string>;
+}
+
+export class ResponseDTO {
+    msg?: Nullable<string>;
 }
 
 export abstract class IQuery {
-    abstract getAllBooks(): Book[] | Promise<Book[]>;
-
     abstract me(): UserDto | Promise<UserDto>;
 }
 
 export abstract class IMutation {
-    abstract register(createUser: CreateUserInput): ResponseDTO | Promise<ResponseDTO>;
+    abstract register(createUser: CreateUserInput): RegisterResponseDTO | Promise<RegisterResponseDTO>;
 
-    abstract verify(): UserDto | Promise<UserDto>;
+    abstract verify(): ResponseDTO | Promise<ResponseDTO>;
 
     abstract forgotPassword(email: string): ResponseDTO | Promise<ResponseDTO>;
 
-    abstract resetPassword(newPassword: string): ResponseDTO | Promise<ResponseDTO>;
+    abstract resetPassword(password: string): ResponseDTO | Promise<ResponseDTO>;
 }
 
 type Nullable<T> = T | null;

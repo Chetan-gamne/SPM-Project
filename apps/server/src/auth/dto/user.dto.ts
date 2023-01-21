@@ -3,26 +3,17 @@ import { Field, ObjectType } from '@nestjs/graphql';
 @ObjectType()
 export class UserDto {
   @Field()
-  _id: string;
-
-  @Field()
-  _rev: string;
-
-  @Field()
-  _key: string;
-
-  @Field()
   name: string;
 
   @Field()
   email: string;
 
   @Field()
-  address: string;
+  uid: string;
 
   @Field()
-  phoneNumber: string;
+  email_verified: boolean;
 
-  @Field()
-  accounCreatedDate: string;
+  @Field({ nullable: true })
+  phone_number?: string;
 }

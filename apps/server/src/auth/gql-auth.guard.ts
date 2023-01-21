@@ -4,13 +4,20 @@ import {
   CanActivate,
   HttpException,
   HttpStatus,
+  Inject,
 } from '@nestjs/common';
 import { GqlExecutionContext } from '@nestjs/graphql';
-import { AuthService } from './auth.service';
+import constants from 'src/idp/constants';
+import { IIdentityProviderService } from 'src/idp/types';
+import { DecodedIdToken } from 'firebase-admin/auth';
+//   import { AuthService } from "./auth.service";
 
 @Injectable()
 export class GqlAuthGuard implements CanActivate {
-  constructor(private authService: AuthService) {}
+  constructor(
+    @Inject(constants.IDENTITY_PROVIDER_SERVICE)
+    private IDPService: IIdentityProviderService,
+  ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const ctx = GqlExecutionContext.create(context).getContext();
@@ -18,12 +25,12 @@ export class GqlAuthGuard implements CanActivate {
     if (!token) {
       throw new HttpException('Not Authenticated', HttpStatus.UNAUTHORIZED);
     }
-    const user = this.authService.verifyByToken(token);
+    const user: DecodedIdToken = await this.IDPService.verify(token);
     console.log(user);
     if (!user) {
       throw new HttpException('Not Authenticated', HttpStatus.UNAUTHORIZED);
     } else {
-      ctx.user = user;
+      ctx.req.user = user;
       return true;
     }
   }

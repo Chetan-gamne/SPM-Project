@@ -1,7 +1,7 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { Database } from './database.provider';
+import { Test, TestingModule } from "@nestjs/testing";
+import { Database } from "./database.provider";
 
-describe('Database', () => {
+describe("Database", () => {
   let provider: Database;
 
   beforeEach(async () => {
@@ -12,7 +12,7 @@ describe('Database', () => {
     provider = module.get<Database>(Database);
   });
 
-  it('should be defined', () => {
+  it("should be defined", () => {
     expect(provider).toBeDefined();
   });
 });
