@@ -1,0 +1,1 @@
+{"version":3,"file":"mock.service.js","sourceRoot":"","sources":["../../../src/str/mockStorage/mock.service.ts"],"names":[],"mappings":";;;AAEA,iDAA8C;AAE9C,MAAa,WAAW;IAGtB;QACE,IAAI,CAAC,YAAY,GAAG,IAAI,2BAAY,EAAE,CAAC;IACzC,CAAC;IAED,KAAK,CAAC,MAAM,CAAC,IAAI;QACf,OAAO,MAAM,IAAI,CAAC,YAAY,CAAC,UAAU,CAAC,IAAI,CAAC,CAAC;IAClD,CAAC;CACF;AAVD,kCAUC"}
