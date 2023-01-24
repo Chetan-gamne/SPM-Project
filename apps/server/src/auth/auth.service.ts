@@ -1,12 +1,12 @@
-import { Inject, Injectable } from '@nestjs/common';
-import constants from 'src/idp/constants';
+import { Inject, Injectable } from "@nestjs/common";
+import constants from "src/idp/constants";
 import {
   IdpUser,
   IIdentityProviderService,
   IUpdateUserRequest,
-} from 'src/idp/types';
-import { CreateUserInput } from './dto/input/createUser.input';
-import { ResponseDTO } from './dto/response.dto';
+} from "src/idp/types";
+import { CreateUserInput } from "./dto/input/createUser.input";
+import { ResponseDTO } from "./dto/response.dto";
 
 @Injectable()
 export class AuthService {
@@ -32,9 +32,9 @@ export class AuthService {
     try {
       const url = await this.IDPService.generateEmailVerificationLink(email);
       if (!url) {
-        console.log('in block');
+        console.log("in block");
         throw new Error(
-          'Unable to Generate Link at this moment! try again latter',
+          "Unable to Generate Link at this moment! try again latter",
         );
       }
       // Logic to send mail through mail module
@@ -51,7 +51,7 @@ export class AuthService {
       // Logic to send mail through mail module
       if (!url) {
         throw new Error(
-          'Unable to Generate Link at this moment! try again latter',
+          "Unable to Generate Link at this moment! try again latter",
         );
       }
 
@@ -69,7 +69,7 @@ export class AuthService {
     try {
       let user = await this.IDPService.getUserByEmail(email);
       await this.IDPService.updateUser(user.id, request);
-      let result: ResponseDTO = { msg: 'Password Updated SuccessFully' };
+      let result: ResponseDTO = { msg: "Password Updated SuccessFully" };
       return result;
     } catch (error) {
       throw error;

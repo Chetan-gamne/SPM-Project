@@ -1,8 +1,8 @@
-import { Injectable } from '@nestjs/common';
-import * as firebase from 'firebase-admin';
-import { auth } from 'firebase-admin';
-import { UserRecord, DecodedIdToken } from 'firebase-admin/auth';
-import { ICreateUserRequest, IdpUser, IUpdateUserRequest } from '../types';
+import { Injectable } from "@nestjs/common";
+import * as firebase from "firebase-admin";
+import { auth } from "firebase-admin";
+import { UserRecord, DecodedIdToken } from "firebase-admin/auth";
+import { ICreateUserRequest, IdpUser, IUpdateUserRequest } from "../types";
 
 @Injectable()
 export class FirebaseService {
@@ -19,7 +19,7 @@ export class FirebaseService {
   convertUserRecordToUser(userRecord: UserRecord) {
     return {
       id: userRecord.uid,
-      email: userRecord.email ?? '',
+      email: userRecord.email ?? "",
       isEnabled: !userRecord.disabled,
       claims: userRecord.customClaims ? userRecord.customClaims : {},
     };
@@ -81,7 +81,7 @@ export class FirebaseService {
     try {
       const userRecord = await this.authInstance.getUserByEmail(email);
 
-      if (!userRecord) throw new Error('User Not Found');
+      if (!userRecord) throw new Error("User Not Found");
 
       const url = await this.authInstance.generatePasswordResetLink(
         userRecord.email,
@@ -97,7 +97,7 @@ export class FirebaseService {
     try {
       const userRecord = await this.authInstance.getUserByEmail(email);
 
-      if (!userRecord) throw new Error('User Not Found');
+      if (!userRecord) throw new Error("User Not Found");
 
       const url = await this.authInstance.generateEmailVerificationLink(
         userRecord.email,
