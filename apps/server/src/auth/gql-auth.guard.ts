@@ -21,8 +21,16 @@ export class GqlAuthGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const ctx = GqlExecutionContext.create(context).getContext();
-    // const token = ctx.req.headers.authorization;
-    const token = ctx.req.cookies["token"];
+    let token = "";
+    const XClientType = ctx.req.headers.xclienttype;
+    if (XClientType == "mobile") {
+      //checks that request coming from any mobile app
+      console.log("from mobile");
+      token = ctx.req.headers.authorization;
+    } else {
+      console.log("From web ");
+      token = ctx.req.cookies["token"]; //check that request coming from any web browser
+    }
     if (!token) {
       throw new HttpException("Not Authenticated", HttpStatus.UNAUTHORIZED);
     }

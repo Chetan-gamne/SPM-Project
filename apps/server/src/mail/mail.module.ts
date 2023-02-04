@@ -13,6 +13,11 @@ import { MailController } from "./mail.controller";
           user: "apikey",
           pass: process.env.mail_api_key,
         },
+        // service: "SendGrid",
+        // api_key: process.env.mail_api_key,
+      },
+      defaults: {
+        from: '"nest-modules" <modules@nestjs.com>',
       },
       template: {
         dir: join("src", "Mails"),
@@ -25,4 +30,8 @@ import { MailController } from "./mail.controller";
   ],
   controllers: [MailController],
 })
-export class MailModule {}
+export class MailModule {
+  constructor() {
+    // console.log(process.env.mail_api_key);
+  }
+}

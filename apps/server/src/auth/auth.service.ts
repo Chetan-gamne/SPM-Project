@@ -7,22 +7,41 @@ import {
 } from "src/idp/types";
 import { CreateUserInput } from "./dto/input/createUser.input";
 import { ResponseDTO } from "./dto/response.dto";
-
+import { UserService } from "src/user/user.service";
+import { Roles } from "./roles.enum";
 @Injectable()
 export class AuthService {
   constructor(
     @Inject(constants.IDENTITY_PROVIDER_SERVICE)
     private IDPService: IIdentityProviderService,
+    private userService: UserService,
   ) {}
-
-  async register(args: CreateUserInput): Promise<IdpUser | null> {
+  async register(args: CreateUserInput): Promise<IdpUser | string> {
     try {
+      let user = await this.userService.getUserByEmail(args.email);
+
+      console.log(user);
+
+      if (user) {
+        throw new Error("User Already register! Plz Login");
+      }
+
       let data = {
         ...args,
         emailVerified: false,
-        claims: {},
+        roles: Roles.Customer,
       };
-      return this.IDPService.createUser(data);
+      let idpUser = await this.IDPService.createUser(data);
+      const { password, ...rest } = args;
+      let dbUser = {
+        ...rest,
+        idpService: "Firebase",
+        idpId: idpUser.id,
+        timestamp: new Date(Date.now()),
+      };
+
+      await this.userService.createUser(dbUser);
+      return idpUser;
     } catch (error) {
       throw error;
     }

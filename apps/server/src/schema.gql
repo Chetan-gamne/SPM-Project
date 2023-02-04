@@ -15,7 +15,7 @@ type RegisterResponseDTO {
 }
 
 type UserDto {
-  name: String!
+  name: String
   email: String!
   uid: String!
   email_verified: Boolean!

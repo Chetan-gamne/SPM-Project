@@ -27,7 +27,7 @@ export class RegisterResponseDTO {
 }
 
 export class UserDto {
-    name: string;
+    name?: Nullable<string>;
     email: string;
     uid: string;
     email_verified: boolean;

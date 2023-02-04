@@ -30,7 +30,7 @@
     "@nestjs/platform-express": "^9.0.0",
     "@types/cookie-parser": "^1.4.3",
     "apollo-server-express": "^3.11.1",
-    "arangojs": "^8.0.0",
+    "arangojs": "^8.1.0",
     "cookie-parser": "^1.4.6",
     "firebase-admin": "^11.3.0",
     "graphql": "^16.6.0",

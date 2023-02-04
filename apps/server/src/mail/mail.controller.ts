@@ -8,7 +8,7 @@ export class MailController {
   @Post("html-email")
   async postHTMLEmail(@Body() payload: any) {
     const response = await this.mailService.sendMail({
-      to: "prathameshmoharkar225@gmail.com",
+      to: "chetangamne12@gmail.com",
       from: "chetangamne12@gmail.com",
       subject: "SPM Floor Order",
       template: "superhero",

@@ -1,4 +1,5 @@
-import { Controller, Inject, Post, Req, Res } from "@nestjs/common";
+import { Controller, Get, Inject, Post, Req, Res } from "@nestjs/common";
+import { X509Certificate } from "crypto";
 import { Request, Response } from "express";
 import constants from "src/idp/constants";
 import {
@@ -14,7 +15,7 @@ export class AuthController {
     private IDPService: IIdentityProviderService,
   ) {}
 
-  @Post("")
+  @Post("login")
   async setCookie(@Req() req: Request, @Res() res: Response) {
     const token = req.headers.authorization;
     try {
@@ -23,12 +24,18 @@ export class AuthController {
         res.status(400).json({ msg: "Login Failed" });
       }
       res.cookie("token", token, {
-        expires: new Date(Date.now() + 30000),
         httpOnly: true,
+        expires: new Date(Date.now() + 30000),
       });
       res.status(200).json({ msg: "Successfully login" });
     } catch (error) {
       res.send(400).json({ msg: "Login Failed" });
     }
+  }
+
+  @Post("logout")
+  async removeCookie(@Req() req: Request, @Res() res: Response) {
+    res.clearCookie("token");
+    res.status(200).json({ msg: "Log Out Successfully" });
   }
 }
