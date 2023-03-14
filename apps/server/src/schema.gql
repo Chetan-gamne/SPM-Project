@@ -1,0 +1,44 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type IClaims {
+  cs: [String!]
+  admin: [String!]
+}
+
+type RegisterResponseDTO {
+  id: String!
+  email: String!
+  claims: IClaims
+  isEnabled: Boolean
+}
+
+type UserDto {
+  name: String
+  email: String!
+  uid: String!
+  email_verified: Boolean!
+  phone_number: String
+}
+
+type ResponseDTO {
+  msg: String
+}
+
+type Query {
+  me: UserDto!
+}
+
+type Mutation {
+  register(createUser: CreateUserInput!): RegisterResponseDTO!
+  verify: ResponseDTO!
+  forgotPassword(email: String!): ResponseDTO!
+  resetPassword(password: String!): ResponseDTO!
+}
+
+input CreateUserInput {
+  email: String!
+  password: String!
+  phone: String!
+}
