@@ -15,13 +15,8 @@ export class AuthResolver {
 
   //Mutatation for Registration of new user
   @Mutation(() => RegisterResponseDTO)
-  register(@Args("createUser") args: CreateUserInput) {
+  register(@Args("createUser") data: CreateUserInput) {
     try {
-      let data = {
-        ...args,
-        emailVerified: false,
-        claims: {},
-      };
       return this.AuthService.register(data);
     } catch (err) {
       console.log(err);
@@ -32,7 +27,10 @@ export class AuthResolver {
   @Mutation(() => ResponseDTO)
   @UseGuards(GqlAuthGuard)
   verify(@Context() ctx: any) {
-    return this.AuthService.verifyEmail(ctx.req.user.email);
+    return this.AuthService.verifyEmail(
+      ctx.req.user.email,
+      ctx.req.user.displayName,
+    );
   }
 
   @Mutation(() => ResponseDTO)

@@ -53,8 +53,8 @@ export class UserService {
   }
 
   async deleteByEmail(email: string): Promise<any> {
-    let user: User = await this.getUserByEmail(email);
-    let { _id } = user;
+    const user: User = await this.getUserByEmail(email);
+    const { _id } = user;
     return await this.deleteUserById(_id);
   }
 

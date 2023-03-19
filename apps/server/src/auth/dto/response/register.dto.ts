@@ -1,4 +1,4 @@
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType } from "@nestjs/graphql";
 // import { type } from 'os';
 // import { IClaims } from 'src/idp/types';
 
@@ -19,8 +19,14 @@ export class RegisterResponseDTO {
   @Field()
   email: string;
 
-  @Field({ nullable: true })
-  claims: IClaims;
+  @Field()
+  role: string;
+
+  @Field()
+  creationTime: string;
+
+  @Field()
+  emailVerified: boolean;
 
   @Field({ nullable: true })
   isEnabled: boolean;

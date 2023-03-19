@@ -1,6 +1,6 @@
-import { ArangoDBService } from './arangoDB/arango.service';
-import constants from './constants';
-import { MockDBService } from './mockDB/mock.service';
+import { ArangoDBService } from "./arangoDB/arango.service";
+import constants from "./constants";
+import { MockDBService } from "./mockDB/mock.service";
 
 const providers = [
   {

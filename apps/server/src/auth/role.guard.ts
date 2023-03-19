@@ -13,13 +13,14 @@ import { DecodedIdToken } from "firebase-admin/auth";
 
 @Injectable()
 export class RoleGuard implements CanActivate {
-  private rolePassed: string[];
-  constructor(role: string[]) {
-    this.rolePassed = role;
+  private rolesPassed: string[];
+  constructor(roles: string[]) {
+    this.rolesPassed = roles;
   }
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const ctx = GqlExecutionContext.create(context).getContext();
-    return this.rolePassed.includes(ctx.req.user.role);
+    return this.rolesPassed.includes(ctx.req.user.role);
+    // return ctx.req.user.role == this.rolePassed;
   }
 }

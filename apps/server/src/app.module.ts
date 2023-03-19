@@ -1,14 +1,17 @@
 import { MiddlewareConsumer, Module, RequestMethod } from "@nestjs/common";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
-import { MailModule } from "./mail/mail.module";
 import { GraphQLModule } from "@nestjs/graphql";
 import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
 import { join } from "path";
 import { AuthModule } from "./auth/auth.module";
 import { ConfigModule } from "@nestjs/config";
-import { UserModule } from './user/user.module';
-import { GrainsModule } from './grains/grains.module';
+import { UserModule } from "./user/user.module";
+import { ProductModule } from "./product/product.module";
+import { StoreModule } from "./store/store.module";
+import { MailModule } from "src/mail/mail.module";
+import { IDPModule } from "src/idp/idp.module";
+import constants from "./idp/constants";
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -25,10 +28,11 @@ import { GrainsModule } from './grains/grains.module';
         credentials: true,
       },
     }),
-    MailModule,
+
     AuthModule,
     UserModule,
-    GrainsModule,
+    ProductModule,
+    StoreModule,
   ],
   controllers: [AppController],
   providers: [AppService],

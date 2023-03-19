@@ -2,15 +2,12 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type IClaims {
-  cs: [String!]
-  admin: [String!]
-}
-
 type RegisterResponseDTO {
   id: String!
   email: String!
-  claims: IClaims
+  role: String!
+  creationTime: String!
+  emailVerified: Boolean!
   isEnabled: Boolean
 }
 
@@ -27,30 +24,37 @@ type ResponseDTO {
 }
 
 type Grain {
-  """Example field (placeholder)"""
-  _id: ID!
+  grain: String!
+  proportion: String!
+}
 
-  """Example field (placeholder)"""
-  name: String!
+type Product {
+  _id: String
+  title: String!
+  description: String
+  price: Float
+  grains: [Grain!]!
+  storeOwnerId: String
+}
 
-  """Example field (placeholder)"""
-  description: String!
+type StoreResponse {
+  _id: String!
+  address: String!
+  latitude: String!
+  longitude: String!
+  Inventory: [InventoryResponse!]!
+}
 
-  """Example field (placeholder)"""
-  type: String
-
-  """Example field (placeholder)"""
-  price: Int!
-
-  """Example field (placeholder)"""
-  nutrition: String!
-  imgUrl: String
+type InventoryResponse {
+  grain_id: String!
+  quantity: Float!
 }
 
 type Query {
   me: UserDto!
-  grains: [Grain!]!
-  grain(id: String!): Grain!
+  getProducts: [Product!]!
+  getAllStores: [StoreResponse!]!
+  getStore(_id: String!): StoreResponse!
 }
 
 type Mutation {
@@ -58,32 +62,63 @@ type Mutation {
   verify: ResponseDTO!
   forgotPassword(email: String!): ResponseDTO!
   resetPassword(password: String!): ResponseDTO!
-  createGrain(createGrainInput: CreateGrainInput!): Grain!
-  updateGrain(updateGrainInput: UpdateGrainInput!): Grain!
-  removeGrain(id: String!): Grain!
+  createProduct(create: CreateProductInput!): Product!
+  updateProduct(update: UpdateProductInput!): Product!
+  deleteProduct(_id: String!): String!
+  createStore(createStoreInput: CreateStoreInput!): StoreResponse!
+  updateStore(updateStoreInput: UpdateStoreInput!): StoreResponse!
+  deleteStore(_id: String!): String!
 }
 
 input CreateUserInput {
+  name: UserName!
   email: String!
   password: String!
   phone: String!
 }
 
-input CreateGrainInput {
-  name: String!
-  type: String
-  description: String!
-  price: Float!
-  nutrition: String!
-  imgUrl: String
+input UserName {
+  firstName: String!
+  lastName: String!
 }
 
-input UpdateGrainInput {
-  name: String
-  type: String
+input CreateProductInput {
+  title: String!
   description: String
-  price: Float
-  nutrition: String
-  imgUrl: String
-  id: ID!
+  price: Float!
+  grains: [Grains!]!
+}
+
+input Grains {
+  grain: String!
+  proportion: Float!
+}
+
+input UpdateProductInput {
+  _id: String!
+  body: CreateProductInput!
+}
+
+input CreateStoreInput {
+  address: String!
+  latitude: String!
+  longitude: String!
+  Inventory: [Inventory!]!
+}
+
+input Inventory {
+  grain_id: String!
+  quantity: Float!
+}
+
+input UpdateStoreInput {
+  _id: String!
+  body: UpdateStoreInputBody!
+}
+
+input UpdateStoreInputBody {
+  address: String
+  latitude: String
+  longitude: String
+  Inventory: [Inventory!]
 }

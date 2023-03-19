@@ -1,26 +1,22 @@
 import { Module } from "@nestjs/common";
-import { HandlebarsAdapter } from "@nestjs-modules/mailer/dist/adapters/handlebars.adapter";
 import { MailerModule } from "@nestjs-modules/mailer";
-import { join } from "path";
 import { MailController } from "./mail.controller";
+import { join } from "path";
+import { HandlebarsAdapter } from "@nestjs-modules/mailer/dist/adapters/handlebars.adapter";
+import { MailService } from "./mail.service";
 
 @Module({
   imports: [
     MailerModule.forRoot({
       transport: {
-        host: "smtp.sendgrid.net",
+        host: "smtp-relay.sendinblue.com",
         auth: {
-          user: "apikey",
-          pass: process.env.mail_api_key,
+          user: "spm.unofficial.project@gmail.com",
+          pass: "M31AdQSJ29BjYbRK",
         },
-        // service: "SendGrid",
-        // api_key: process.env.mail_api_key,
-      },
-      defaults: {
-        from: '"nest-modules" <modules@nestjs.com>',
       },
       template: {
-        dir: join("src", "Mails"),
+        dir: join("src", "templates"),
         adapter: new HandlebarsAdapter(),
         options: {
           strict: true,
@@ -29,9 +25,7 @@ import { MailController } from "./mail.controller";
     }),
   ],
   controllers: [MailController],
+  providers: [MailService],
+  exports: [MailService],
 })
-export class MailModule {
-  constructor() {
-    // console.log(process.env.mail_api_key);
-  }
-}
+export class MailModule {}

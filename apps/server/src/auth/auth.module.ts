@@ -8,10 +8,12 @@ import { AuthController } from "./auth.controller";
 import { DatabaseModule } from "src/database/database.module";
 import dbConstants from "src/database/constants";
 import { UserModule } from "src/user/user.module";
+import { MailModule } from "src/mail/mail.module";
 @Module({
   imports: [
     IDPModule.forRoot(constants.IDENTITY_PROVIDER_FIREBASE),
     UserModule,
+    MailModule,
   ],
   providers: [AuthResolver, GqlAuthGuard, AuthService],
   controllers: [AuthController],
