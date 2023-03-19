@@ -25,7 +25,7 @@ export class AuthController {
       }
       res.cookie("token", token, {
         httpOnly: true,
-        expires: new Date(Date.now() + 30000),
+        expires: new Date(Date.now() + 30000000),
       });
       res.status(200).json({ msg: "Successfully login" });
     } catch (error) {

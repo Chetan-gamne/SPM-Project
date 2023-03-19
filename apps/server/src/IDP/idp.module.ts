@@ -1,5 +1,5 @@
-import { Module, DynamicModule } from '@nestjs/common';
-import { getIdentityProvider } from '.';
+import { Module, DynamicModule } from "@nestjs/common";
+import { getIdentityProvider } from ".";
 @Module({
   imports: [],
   controllers: [],

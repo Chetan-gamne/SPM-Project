@@ -9,7 +9,10 @@ export interface IdpUser {
   email: string;
   claims?: IClaims;
   isEnabled: boolean;
-  roles?: string | null;
+  emailVerified: boolean;
+  role?: string | null;
+  creationTime: string;
+  displayName?: string;
 }
 
 export interface ICreateUserRequest {
@@ -17,8 +20,7 @@ export interface ICreateUserRequest {
   password: string;
   phone: string;
   emailVerified?: boolean;
-  roles?: string | null;
-  claims?: IClaims;
+  role?: string | null;
 }
 
 export interface IUpdateUserRequest {

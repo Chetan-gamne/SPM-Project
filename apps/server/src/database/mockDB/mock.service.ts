@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import { Database, aql } from 'arangojs';
+import { Injectable } from "@nestjs/common";
+import { Database, aql } from "arangojs";
 
 @Injectable()
 export class MockDBService {

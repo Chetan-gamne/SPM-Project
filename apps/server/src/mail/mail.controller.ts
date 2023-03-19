@@ -1,21 +1,23 @@
-import { Body, Controller, Post } from "@nestjs/common";
-import { MailerService } from "@nestjs-modules/mailer";
+import { Body, Controller, Post, Query } from "@nestjs/common";
+import { MailService } from "./mail.service";
 
 @Controller("mail")
 export class MailController {
-  constructor(private mailService: MailerService) {}
+  constructor(private mailService: MailService) {}
 
-  @Post("html-email")
-  async postHTMLEmail(@Body() payload: any) {
-    const response = await this.mailService.sendMail({
-      to: "chetangamne12@gmail.com",
-      from: "chetangamne12@gmail.com",
-      subject: "SPM Floor Order",
-      template: "superhero",
-      context: {
-        superHero: payload,
+  @Post("send")
+  async sendEmail(@Body() payload) {
+    return await this.mailService.sendMail({
+      templateName: "verifyEmail",
+      variables: {
+        username: "Prathamesh",
+        verificationLink: "https://www.google.com",
+        companyName: "Chakki",
+      },
+      data: {
+        to: payload.email,
+        subject: payload.subject,
       },
     });
-    return "success";
   }
 }

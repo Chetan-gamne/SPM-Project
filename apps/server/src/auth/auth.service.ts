@@ -9,55 +9,86 @@ import { CreateUserInput } from "./dto/input/createUser.input";
 import { ResponseDTO } from "./dto/response.dto";
 import { UserService } from "src/user/user.service";
 import { Roles } from "./roles.enum";
+import { MailService } from "src/mail/mail.service";
 @Injectable()
 export class AuthService {
   constructor(
     @Inject(constants.IDENTITY_PROVIDER_SERVICE)
     private IDPService: IIdentityProviderService,
     private userService: UserService,
+    private mailService: MailService,
   ) {}
   async register(args: CreateUserInput): Promise<IdpUser | string> {
     try {
-      let user = await this.userService.getUserByEmail(args.email);
-
-      console.log(user);
+      const user = await this.userService.getUserByEmail(args.email);
 
       if (user) {
         throw new Error("User Already register! Plz Login");
       }
 
-      let data = {
+      const data = {
         ...args,
+        role: Roles.Customer,
+        displayName: args.name.firstName + " " + args.name.lastName,
         emailVerified: false,
-        roles: Roles.Customer,
+        phoneNumber: args.phone,
+        createdDate: new Date(Date.now()),
       };
-      let idpUser = await this.IDPService.createUser(data);
+      const idpUser = await this.IDPService.createUser(data);
       const { password, ...rest } = args;
-      let dbUser = {
+      const dbUser = {
         ...rest,
-        idpService: "Firebase",
+        role: idpUser.role,
+        idpProvider: "Firebase",
         idpId: idpUser.id,
-        timestamp: new Date(Date.now()),
+        creationTime: idpUser.creationTime,
       };
-
       await this.userService.createUser(dbUser);
+
+      await this.mailService.sendMail({
+        data: {
+          to: idpUser.email,
+          subject: "Welcome to Chakii - Fresh Floor Ordering System",
+        },
+        templateName: "registrationConfirmation",
+        variables: {
+          username: idpUser.displayName,
+          companyName: "Chakii",
+        },
+      });
       return idpUser;
     } catch (error) {
       throw error;
     }
   }
 
-  async verifyEmail(email: string): Promise<ResponseDTO | null> {
+  async verifyEmail(
+    email: string,
+    username: string,
+  ): Promise<ResponseDTO | null> {
     try {
-      const url = await this.IDPService.generateEmailVerificationLink(email);
-      if (!url) {
+      const verificationLink =
+        await this.IDPService.generateEmailVerificationLink(email);
+      if (!verificationLink) {
         console.log("in block");
         throw new Error(
           "Unable to Generate Link at this moment! try again latter",
         );
       }
       // Logic to send mail through mail module
-      let result: ResponseDTO = { msg: url };
+      await this.mailService.sendMail({
+        templateName: "verifyEmail",
+        variables: {
+          username: username,
+          verificationLink: verificationLink,
+          companyName: "Chakki",
+        },
+        data: {
+          to: email,
+          subject: "Verify your email at Chakki",
+        },
+      });
+      const result: ResponseDTO = { msg: "Mail Sent Successfully" };
       return result;
     } catch (error) {
       throw error;
@@ -66,15 +97,30 @@ export class AuthService {
 
   async forgotPassword(email: string): Promise<ResponseDTO | null> {
     try {
-      const url = await this.IDPService.generatePasswordResetLink(email);
+      const passwordResetLink = await this.IDPService.generatePasswordResetLink(
+        email,
+      );
       // Logic to send mail through mail module
-      if (!url) {
+      if (!passwordResetLink) {
         throw new Error(
           "Unable to Generate Link at this moment! try again latter",
         );
       }
+      //mail the link
+      await this.mailService.sendMail({
+        templateName: "resetPassword",
+        variables: {
+          passwordResetLink: passwordResetLink,
+          companyName: "Chakki",
+        },
+        data: {
+          to: email,
+          subject: "Reset your password at Chakki",
+        },
+      });
 
-      let result: ResponseDTO = { msg: url };
+      const result: ResponseDTO = { msg: "Reset Link Sent Successfully" };
+
       return result;
     } catch (error) {
       throw error;
@@ -86,9 +132,9 @@ export class AuthService {
     request: IUpdateUserRequest,
   ): Promise<ResponseDTO | null> {
     try {
-      let user = await this.IDPService.getUserByEmail(email);
+      const user = await this.IDPService.getUserByEmail(email);
       await this.IDPService.updateUser(user.id, request);
-      let result: ResponseDTO = { msg: "Password Updated SuccessFully" };
+      const result: ResponseDTO = { msg: "Password Updated SuccessFully" };
       return result;
     } catch (error) {
       throw error;
