@@ -1,0 +1,4 @@
+src/IDP/firebaseServiceAccount.json
+dist
+node_modules
+.env
