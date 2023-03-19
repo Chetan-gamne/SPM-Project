@@ -63,16 +63,20 @@ export class FirebaseService {
   async createUser(data: ICreateUserRequest): Promise<IdpUser> {
     try {
       const userRecord = await this.authInstance.createUser(data);
-      // console.log(userRecord);
+
       await this.authInstance.setCustomUserClaims(userRecord.uid, {
-        role: data.roles,
+        role: data.role,
       });
+
+      const newUserRecord = await this.authInstance.getUser(userRecord.uid);
+
       return {
-        id: userRecord.uid,
-        email: data.email,
-        claims: data.claims,
-        roles: data.roles,
-        isEnabled: !userRecord.disabled,
+        id: newUserRecord.uid,
+        email: newUserRecord.email,
+        role: newUserRecord.customClaims.role,
+        emailVerified: newUserRecord.emailVerified,
+        isEnabled: !newUserRecord.disabled,
+        creationTime: newUserRecord.metadata.creationTime,
       };
     } catch (error) {
       throw error;

@@ -1,5 +1,5 @@
-import { DynamicModule, Module } from '@nestjs/common';
-import { getDatabaseProvider } from '.';
+import { DynamicModule, Module } from "@nestjs/common";
+import { getDatabaseProvider } from ".";
 
 @Module({
   providers: [],

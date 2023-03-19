@@ -47,8 +47,8 @@ export class ArangoDBService {
   // }
 
   async getById(_id: string, collection: string): Promise<any> {
-    let query = `FOR doc IN ${collection} FILTER doc._id == @id RETURN doc`;
-    let bindVars = { id: _id };
+    const query = `FOR doc IN ${collection} FILTER doc._id == @id RETURN doc`;
+    const bindVars = { id: _id };
     try {
       const cursor = await this.db.query(query, bindVars);
       const doc = await cursor.next();
@@ -107,14 +107,14 @@ export class ArangoDBService {
   // }
 
   async updateById(_id: string, body: any, collection: string): Promise<any> {
-    let query = `
+    const query = `
         FOR doc IN @@collection
           FILTER doc._id == @id
           UPDATE doc WITH @data IN @@collection
           RETURN NEW
       `;
     // let bindVars = { id: _id, newValues: body };
-    let bindVars = {
+    const bindVars = {
       "@collection": collection,
       id: _id,
       data: body,
@@ -129,8 +129,8 @@ export class ArangoDBService {
   }
 
   async insertOne(body: any, collection): Promise<any> {
-    let query = `INSERT @newDoc INTO ${collection} RETURN NEW`;
-    let bindVars = { newDoc: body };
+    const query = `INSERT @newDoc INTO ${collection} RETURN NEW`;
+    const bindVars = { newDoc: body };
     try {
       const cursor = await this.db.query(query, bindVars);
       const doc = await cursor.next();
@@ -143,7 +143,7 @@ export class ArangoDBService {
   // async insertList(list: any[]): Promise<any[]> { }
   async deleteOne(_id: string, collection): Promise<any> {
     try {
-      let result = await this.db.collection(collection).remove(_id);
+      const result = await this.db.collection(collection).remove(_id);
       return result;
     } catch (error) {
       throw error;
@@ -161,7 +161,7 @@ export class ArangoDBService {
   // }
 
   async count(collection): Promise<any> {
-    let { count } = await this.db.collection(collection).count();
+    const { count } = await this.db.collection(collection).count();
     return { count };
   }
 }
