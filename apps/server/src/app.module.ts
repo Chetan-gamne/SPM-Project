@@ -8,6 +8,7 @@ import { join } from "path";
 import { AuthModule } from "./auth/auth.module";
 import { ConfigModule } from "@nestjs/config";
 import { UserModule } from './user/user.module';
+import { GrainsModule } from './grains/grains.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -27,6 +28,7 @@ import { UserModule } from './user/user.module';
     MailModule,
     AuthModule,
     UserModule,
+    GrainsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -26,8 +26,31 @@ type ResponseDTO {
   msg: String
 }
 
+type Grain {
+  """Example field (placeholder)"""
+  _id: ID!
+
+  """Example field (placeholder)"""
+  name: String!
+
+  """Example field (placeholder)"""
+  description: String!
+
+  """Example field (placeholder)"""
+  type: String
+
+  """Example field (placeholder)"""
+  price: Int!
+
+  """Example field (placeholder)"""
+  nutrition: String!
+  imgUrl: String
+}
+
 type Query {
   me: UserDto!
+  grains: [Grain!]!
+  grain(id: String!): Grain!
 }
 
 type Mutation {
@@ -35,10 +58,32 @@ type Mutation {
   verify: ResponseDTO!
   forgotPassword(email: String!): ResponseDTO!
   resetPassword(password: String!): ResponseDTO!
+  createGrain(createGrainInput: CreateGrainInput!): Grain!
+  updateGrain(updateGrainInput: UpdateGrainInput!): Grain!
+  removeGrain(id: String!): Grain!
 }
 
 input CreateUserInput {
   email: String!
   password: String!
   phone: String!
+}
+
+input CreateGrainInput {
+  name: String!
+  type: String
+  description: String!
+  price: Float!
+  nutrition: String!
+  imgUrl: String
+}
+
+input UpdateGrainInput {
+  name: String
+  type: String
+  description: String
+  price: Float
+  nutrition: String
+  imgUrl: String
+  id: ID!
 }
