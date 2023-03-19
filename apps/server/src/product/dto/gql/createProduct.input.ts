@@ -3,7 +3,7 @@ import { InputType, Field } from "@nestjs/graphql";
 @InputType()
 export class CreateProductInput {
   @Field()
-  title: string;
+  name: string;
 
   @Field({ nullable: true })
   description?: string;
@@ -11,8 +11,8 @@ export class CreateProductInput {
   @Field()
   price: number;
 
-  @Field(() => [Grains])
-  grains: Array<Grains>;
+  @Field(() => [IngredientInput])
+  ingredients: Array<IngredientInput>;
 }
 
 @InputType()
@@ -27,20 +27,20 @@ export class UpdateProductInput {
 @InputType()
 export class UpdateInput {
   @Field({ nullable: true })
-  title?: string;
+  name: string;
 
   @Field({ nullable: true })
-  description?: string;
+  description: string;
 
   @Field({ nullable: true })
-  price?: number;
+  price: number;
 
-  @Field(() => [Grains], { nullable: true })
-  grains?: Array<Grains>;
+  @Field(() => [IngredientInput], { nullable: true })
+  ingredients: Array<IngredientInput>;
 }
 
 @InputType()
-export class Grains {
+export class IngredientInput {
   @Field()
   grain: string;
   @Field()
