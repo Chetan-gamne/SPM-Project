@@ -1,16 +1,16 @@
 export interface Product {
   _id?: string;
-  title: string;
+  name: string;
   description?: string;
   createdDate?: Date;
   updatedDate?: Date;
   price?: number;
   // quantity?: number;
-  grains: Grains[];
+  ingredients: Ingredient[];
   storeOwnerId?: string;
 }
 
-interface Grains {
+interface Ingredient {
   grain: string;
   proportion: number;
 }

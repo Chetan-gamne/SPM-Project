@@ -23,18 +23,18 @@ type ResponseDTO {
   msg: String
 }
 
-type Grain {
-  grain: String!
+type Ingredient {
+  grain_id: String!
   proportion: String!
 }
 
 type Product {
   _id: String
-  title: String!
+  name: String!
   description: String
   price: Float
-  grains: [Grain!]!
-  storeOwnerId: String
+  ingredients: [Ingredient!]!
+  imgUrl: String
 }
 
 type StoreResponse {
@@ -50,11 +50,34 @@ type InventoryResponse {
   quantity: Float!
 }
 
+type Grain {
+  """Example field (placeholder)"""
+  _id: ID!
+
+  """Example field (placeholder)"""
+  name: String!
+
+  """Example field (placeholder)"""
+  description: String!
+
+  """Example field (placeholder)"""
+  type: String
+
+  """Example field (placeholder)"""
+  price: Int!
+
+  """Example field (placeholder)"""
+  nutrition: String!
+  imgUrl: String
+}
+
 type Query {
   me: UserDto!
   getProducts: [Product!]!
   getAllStores: [StoreResponse!]!
   getStore(_id: String!): StoreResponse!
+  grains: [Grain!]!
+  grain(id: String!): Grain!
 }
 
 type Mutation {
@@ -68,6 +91,9 @@ type Mutation {
   createStore(createStoreInput: CreateStoreInput!): StoreResponse!
   updateStore(updateStoreInput: UpdateStoreInput!): StoreResponse!
   deleteStore(_id: String!): String!
+  createGrain(createGrainInput: CreateGrainInput!): Grain!
+  updateGrain(updateGrainInput: UpdateGrainInput!): Grain!
+  removeGrain(id: String!): Grain!
 }
 
 input CreateUserInput {
@@ -83,13 +109,13 @@ input UserName {
 }
 
 input CreateProductInput {
-  title: String!
+  name: String!
   description: String
   price: Float!
-  grains: [Grains!]!
+  ingredients: [IngredientInput!]!
 }
 
-input Grains {
+input IngredientInput {
   grain: String!
   proportion: Float!
 }
@@ -121,4 +147,23 @@ input UpdateStoreInputBody {
   latitude: String
   longitude: String
   Inventory: [Inventory!]
+}
+
+input CreateGrainInput {
+  name: String!
+  type: String
+  description: String!
+  price: Float!
+  nutrition: String!
+  imgUrl: String
+}
+
+input UpdateGrainInput {
+  name: String
+  type: String
+  description: String
+  price: Float
+  nutrition: String
+  imgUrl: String
+  id: ID!
 }

@@ -1,9 +1,9 @@
 import { Field, ObjectType } from "@nestjs/graphql";
 
 @ObjectType()
-export class Grain {
+export class Ingredient {
   @Field()
-  grain: string;
+  grain_id: string;
   @Field()
   proportion: string;
 }
@@ -14,7 +14,7 @@ export class Product {
   _id?: string;
 
   @Field()
-  title: string;
+  name: string;
 
   @Field({ nullable: true })
   description?: string;
@@ -22,9 +22,9 @@ export class Product {
   @Field({ nullable: true })
   price?: number;
 
-  @Field(() => [Grain])
-  grains: Array<Grain>;
+  @Field(() => [Ingredient])
+  ingredients: Array<Ingredient>;
 
   @Field({ nullable: true })
-  storeOwnerId?: string;
+  imgUrl: string;
 }
