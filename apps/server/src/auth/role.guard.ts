@@ -10,7 +10,6 @@ import { GqlExecutionContext } from "@nestjs/graphql";
 import constants from "src/idp/constants";
 import { IIdentityProviderService } from "src/idp/types";
 import { DecodedIdToken } from "firebase-admin/auth";
-//   import { AuthService } from "./auth.service";
 
 @Injectable()
 export class RoleGuard implements CanActivate {
