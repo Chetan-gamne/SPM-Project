@@ -1,7 +1,8 @@
 import { Injectable, Inject } from "@nestjs/common";
 import dbconstants from "../database/constants";
 import { DBService } from "src/database/types";
-import { CreateStoreInput, UpdateStoreInput } from "src/graphql";
+import { CreateStoreInput } from "./dto/create-store";
+import { UpdateStoreInput } from "./dto/update-store";
 
 @Injectable()
 export class StoreService {

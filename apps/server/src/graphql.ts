@@ -21,13 +21,13 @@ export class UserName {
 }
 
 export class CreateProductInput {
-    title: string;
+    name: string;
     description?: Nullable<string>;
     price: number;
-    grains: Grains[];
+    ingredients: IngredientInput[];
 }
 
-export class Grains {
+export class IngredientInput {
     grain: string;
     proportion: number;
 }
@@ -61,6 +61,25 @@ export class UpdateStoreInputBody {
     Inventory?: Nullable<Inventory[]>;
 }
 
+export class CreateGrainInput {
+    name: string;
+    type?: Nullable<string>;
+    description: string;
+    price: number;
+    nutrition: string;
+    imgUrl?: Nullable<string>;
+}
+
+export class UpdateGrainInput {
+    name?: Nullable<string>;
+    type?: Nullable<string>;
+    description?: Nullable<string>;
+    price?: Nullable<number>;
+    nutrition?: Nullable<string>;
+    imgUrl?: Nullable<string>;
+    id: string;
+}
+
 export class RegisterResponseDTO {
     id: string;
     email: string;
@@ -82,18 +101,18 @@ export class ResponseDTO {
     msg?: Nullable<string>;
 }
 
-export class Grain {
-    grain: string;
+export class Ingredient {
+    grain_id: string;
     proportion: string;
 }
 
 export class Product {
     _id?: Nullable<string>;
-    title: string;
+    name: string;
     description?: Nullable<string>;
     price?: Nullable<number>;
-    grains: Grain[];
-    storeOwnerId?: Nullable<string>;
+    ingredients: Ingredient[];
+    imgUrl?: Nullable<string>;
 }
 
 export class StoreResponse {
@@ -109,6 +128,16 @@ export class InventoryResponse {
     quantity: number;
 }
 
+export class Grain {
+    _id: string;
+    name: string;
+    description: string;
+    type?: Nullable<string>;
+    price: number;
+    nutrition: string;
+    imgUrl?: Nullable<string>;
+}
+
 export abstract class IQuery {
     abstract me(): UserDto | Promise<UserDto>;
 
@@ -117,6 +146,10 @@ export abstract class IQuery {
     abstract getAllStores(): StoreResponse[] | Promise<StoreResponse[]>;
 
     abstract getStore(_id: string): StoreResponse | Promise<StoreResponse>;
+
+    abstract grains(): Grain[] | Promise<Grain[]>;
+
+    abstract grain(id: string): Grain | Promise<Grain>;
 }
 
 export abstract class IMutation {
@@ -139,6 +172,12 @@ export abstract class IMutation {
     abstract updateStore(updateStoreInput: UpdateStoreInput): StoreResponse | Promise<StoreResponse>;
 
     abstract deleteStore(_id: string): string | Promise<string>;
+
+    abstract createGrain(createGrainInput: CreateGrainInput): Grain | Promise<Grain>;
+
+    abstract updateGrain(updateGrainInput: UpdateGrainInput): Grain | Promise<Grain>;
+
+    abstract removeGrain(id: string): Grain | Promise<Grain>;
 }
 
 type Nullable<T> = T | null;
