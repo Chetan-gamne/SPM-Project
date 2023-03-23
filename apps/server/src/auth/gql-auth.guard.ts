@@ -31,11 +31,11 @@ export class GqlAuthGuard implements CanActivate {
       console.log(token);
     } else {
       console.log("From web ");
-      console.log(ctx.req.headers);
-      token = ctx.req.headers.authorization;
-      // token = ctx.req.cookies["token"]; //check that request coming from any web browser
+      // console.log(ctx.req.headers);
+      // token = ctx.req.headers.authorization;
+      token = ctx.req.cookies["token"]; //check that request coming from any web browser
     }
-    console.log(token);
+    // console.log(token);
     if (!token) {
       throw new HttpException("Not Authenticated", HttpStatus.UNAUTHORIZED);
     }

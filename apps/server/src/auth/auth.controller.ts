@@ -18,8 +18,10 @@ export class AuthController {
   @Post("login")
   async setCookie(@Req() req: Request, @Res() res: Response) {
     const token = req.headers.authorization;
+    console.log(token);
     try {
       const user = await this.IDPService.verify(token);
+      console.log(user);
       if (!user) {
         res.status(400).json({ msg: "Login Failed" });
       }
@@ -29,7 +31,7 @@ export class AuthController {
       });
       res.status(200).json({ msg: "Successfully login" });
     } catch (error) {
-      res.send(400).json({ msg: "Login Failed" });
+      res.status(400).json({ msg: "Login Failed" });
     }
   }
 
