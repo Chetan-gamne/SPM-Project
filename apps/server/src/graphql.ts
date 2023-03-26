@@ -8,16 +8,17 @@
 /* tslint:disable */
 /* eslint-disable */
 
+export class ProductOption {
+    limit?: Nullable<number>;
+    nutrients?: Nullable<string[]>;
+    grains?: Nullable<string[]>;
+}
+
 export class CreateUserInput {
-    name: UserName;
+    name: string;
     email: string;
     password: string;
     phone: string;
-}
-
-export class UserName {
-    firstName: string;
-    lastName: string;
 }
 
 export class CreateProductInput {
@@ -141,7 +142,9 @@ export class Grain {
 export abstract class IQuery {
     abstract me(): UserDto | Promise<UserDto>;
 
-    abstract getProducts(): Product[] | Promise<Product[]>;
+    abstract getProducts(options: ProductOption): Product[] | Promise<Product[]>;
+
+    abstract getProduct(id: string): Product | Promise<Product>;
 
     abstract getAllStores(): StoreResponse[] | Promise<StoreResponse[]>;
 

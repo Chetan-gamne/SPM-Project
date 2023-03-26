@@ -1,15 +1,5 @@
-import {
-  Injectable,
-  ExecutionContext,
-  CanActivate,
-  HttpException,
-  HttpStatus,
-  Inject,
-} from "@nestjs/common";
+import { Injectable, ExecutionContext, CanActivate } from "@nestjs/common";
 import { GqlExecutionContext } from "@nestjs/graphql";
-import constants from "src/idp/constants";
-import { IIdentityProviderService } from "src/idp/types";
-import { DecodedIdToken } from "firebase-admin/auth";
 
 @Injectable()
 export class RoleGuard implements CanActivate {

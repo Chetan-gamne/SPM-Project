@@ -73,11 +73,18 @@ type Grain {
 
 type Query {
   me: UserDto!
-  getProducts: [Product!]!
+  getProducts(options: ProductOption!): [Product!]!
+  getProduct(id: String!): Product!
   getAllStores: [StoreResponse!]!
   getStore(_id: String!): StoreResponse!
   grains: [Grain!]!
   grain(id: String!): Grain!
+}
+
+input ProductOption {
+  limit: Float
+  nutrients: [String!]
+  grains: [String!]
 }
 
 type Mutation {
@@ -97,15 +104,10 @@ type Mutation {
 }
 
 input CreateUserInput {
-  name: UserName!
+  name: String!
   email: String!
   password: String!
   phone: String!
-}
-
-input UserName {
-  firstName: String!
-  lastName: String!
 }
 
 input CreateProductInput {
