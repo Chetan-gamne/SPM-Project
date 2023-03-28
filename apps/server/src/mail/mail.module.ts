@@ -8,10 +8,10 @@ import { MailController } from "./mail.controller";
   imports: [
     MailerModule.forRoot({
       transport: {
-        host: "smtp.sendgrid.net",
+        host: "smtp.mailgun.org",
         auth: {
-          user: "apikey",
-          pass: process.env.mail_api_key,
+          user: process.env.MAILGUN_USER_KEY,
+          pass: process.env.MAILGUN_PASS_KEY,
         },
       },
       template: {
@@ -25,4 +25,4 @@ import { MailController } from "./mail.controller";
   ],
   controllers: [MailController],
 })
-export class MailModule {}
+export class MailModule { }
