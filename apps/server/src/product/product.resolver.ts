@@ -4,6 +4,7 @@ import {
   UpdateProductInput,
 } from "./dto/gql/createProduct.input";
 import { Product } from "./dto/gql/product.dto";
+import { ProductOption } from "./dto/productOption.dto";
 import { ProductService } from "./product.service";
 
 @Resolver()
@@ -27,8 +28,13 @@ export class ProductResolver {
   }
 
   @Query(() => [Product])
-  getProducts() {
-    console.log("executed");
-    return this.productService.getAllProducts();
+  getProducts(@Args("options") options: ProductOption) {
+    console.log("Query Hit!");
+    return this.productService.getAllProducts(options);
+  }
+
+  @Query(() => Product)
+  getProduct(@Args("id") id: string) {
+    return this.productService.getProduct(id);
   }
 }
