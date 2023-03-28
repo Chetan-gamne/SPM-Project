@@ -1,6 +1,6 @@
-import constants from './constants';
-import { FirebaseService } from './firebaseIDP/firebase.service';
-import { MockService } from './mockIDP/mock.service';
+import constants from "./constants";
+import { FirebaseService } from "./firebaseIdp/firebase.service";
+import { MockService } from "./mockIdp/mock.service";
 const providers = [
   {
     provide: constants.IDENTITY_PROVIDER_FIREBASE,

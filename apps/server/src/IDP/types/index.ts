@@ -1,4 +1,4 @@
-import { DecodedIdToken } from 'firebase-admin/auth';
+import { DecodedIdToken } from "firebase-admin/auth";
 export interface IClaims {
   cs?: string[];
   admin?: string[];
@@ -9,6 +9,10 @@ export interface IdpUser {
   email: string;
   claims?: IClaims;
   isEnabled: boolean;
+  emailVerified: boolean;
+  role?: string | null;
+  creationTime: string;
+  displayName?: string;
 }
 
 export interface ICreateUserRequest {
@@ -16,7 +20,7 @@ export interface ICreateUserRequest {
   password: string;
   phone: string;
   emailVerified?: boolean;
-  claims: IClaims;
+  role?: string | null;
 }
 
 export interface IUpdateUserRequest {

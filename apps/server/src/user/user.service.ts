@@ -1,51 +1,68 @@
-import { Injectable } from "@nestjs/common";
-import { v4 as uuidv4 } from 'uuid';
-import { GetUserArgs } from "./dto/args/get-user.args";
-import { GetUsersArgs } from "./dto/args/get-users.args";
-import { CreateUserInput } from "./dto/input/create-user.input";
-import { DeleteUserInput } from "./dto/input/delete-user.input";
-import { UpdateUserInput } from "./dto/input/update-user.input";
-import { User } from "./models/user";
+import { Inject, Injectable } from "@nestjs/common";
+import { DBService } from "src/database/types";
+import dbconstants from "../database/constants";
+import { User } from "./dto/user.dto";
 
 @Injectable()
 export class UserService {
-    private users: User[] = [];
-    
+  private collection;
+  constructor(
+    @Inject(dbconstants.DATABASE_PROVIDER_SERVICE) private DBService: DBService,
+  ) {
+    this.collection = "users";
+  }
 
-    public createUser(createUserData: CreateUserInput): User {
-        const user: User = {
-            userId: uuidv4(),
-            ...createUserData
-        }
+  async getUsers(): Promise<User[]> {
+    const users = await this.DBService.getAllDocs(this.collection);
+    return users;
+  }
 
-        this.users.push(user);
+  async getUserById(_id: string): Promise<User> {
+    const user = await this.DBService.getById(_id, this.collection);
+    return user;
+  }
 
-        return user;
-    }
+  async getUserByEmail(email: string): Promise<User> {
+    const user = await this.DBService.getByAtrribute(
+      "email",
+      email,
+      this.collection,
+    );
+    return user[0];
+  }
 
-    public updateUser(updateUserData: UpdateUserInput): User {
-        const user = this.users.find(user => user.userId === updateUserData.userId);
+  async getUsersByAtrribute(
+    attribute: string,
+    attributeValue: any,
+  ): Promise<User[]> {
+    const user = await this.DBService.getByAtrribute(
+      attribute,
+      attributeValue,
+      this.collection,
+    );
+    return user;
+  }
 
-        Object.assign(user, updateUserData);
+  async updateUserById(_id: string, body: any): Promise<User> {
+    const user = await this.DBService.updateById(_id, body, this.collection);
+    return user;
+  }
 
-        return user;
-    }
+  async createUser(body: any): Promise<User> {
+    return await this.DBService.insertOne(body, this.collection);
+  }
 
-    public getUser(getUserArgs: GetUserArgs): User {
-        return this.users.find(user => user.userId === getUserArgs.userId);
-    }
+  async deleteByEmail(email: string): Promise<any> {
+    const user: User = await this.getUserByEmail(email);
+    const { _id } = user;
+    return await this.deleteUserById(_id);
+  }
 
-    public getUsers(getUsersArgs: GetUsersArgs): User[] {
-        return getUsersArgs.userId.map(userId => this.getUser({ userId }));
-    }
+  async deleteUserById(_id: string): Promise<any> {
+    return await this.DBService.deleteOne(_id, this.collection);
+  }
 
-    public deleteUser(deleteUserData: DeleteUserInput): User {
-        const userIndex = this.users.findIndex(user => user.userId === deleteUserData.userId);
-
-        const user = this.users[userIndex];
-
-        this.users.splice(userIndex);
-
-        return user;
-    }
+  async count(): Promise<any> {
+    return await this.DBService.count(this.collection);
+  }
 }

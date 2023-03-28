@@ -1,21 +1,22 @@
 import { Module } from "@nestjs/common";
-import { HandlebarsAdapter } from "@nestjs-modules/mailer/dist/adapters/handlebars.adapter";
 import { MailerModule } from "@nestjs-modules/mailer";
-import { join } from "path";
 import { MailController } from "./mail.controller";
+import { join } from "path";
+import { HandlebarsAdapter } from "@nestjs-modules/mailer/dist/adapters/handlebars.adapter";
+import { MailService } from "./mail.service";
 
 @Module({
   imports: [
     MailerModule.forRoot({
       transport: {
-        host: "smtp.mailgun.org",
+        host: "smtp-relay.sendinblue.com",
         auth: {
-          user: process.env.MAILGUN_USER_KEY,
-          pass: process.env.MAILGUN_PASS_KEY,
+          user: "spm.unofficial.project@gmail.com",
+          pass: "M31AdQSJ29BjYbRK",
         },
       },
       template: {
-        dir: join("src", "Mails"),
+        dir: join("src", "templates"),
         adapter: new HandlebarsAdapter(),
         options: {
           strict: true,
@@ -24,5 +25,7 @@ import { MailController } from "./mail.controller";
     }),
   ],
   controllers: [MailController],
+  providers: [MailService],
+  exports: [MailService],
 })
-export class MailModule { }
+export class MailModule {}
