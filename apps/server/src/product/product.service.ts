@@ -2,6 +2,7 @@ import { Injectable, Inject } from "@nestjs/common";
 import dbconstants from "../database/constants";
 import { DBService } from "src/database/types";
 import { Product } from "./dto/product.dto";
+import { ProductOption } from "./dto/productOption.dto";
 
 @Injectable()
 export class ProductService {
@@ -16,8 +17,27 @@ export class ProductService {
     return this.DBService.insertOne(body, this.collection);
   }
 
-  async getAllProducts(): Promise<Product[]> {
-    return await this.DBService.getAllDocs(this.collection);
+  async getAllProducts(options: ProductOption): Promise<Product[]> {
+    let products: Product[] = await this.DBService.getAllDocs(this.collection);
+    if (
+      !options?.limit &&
+      !options?.nutrients?.length &&
+      !options?.grains?.length
+    ) {
+      return products;
+    }
+    if (options?.grains && options.grains.length > 0) {
+      products = products.filter((product) =>
+        product.ingredients.some((ingredient) =>
+          options.grains?.includes(ingredient.grain_id),
+        ),
+      );
+    }
+    console.log(products);
+    if (options.limit) {
+      return products.slice(0, options.limit);
+    }
+    return products;
   }
 
   async updateProduct(_id: string, body: Product): Promise<Product> {

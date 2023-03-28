@@ -73,11 +73,18 @@ type Grain {
 
 type Query {
   me: UserDto!
-  getProducts: [Product!]!
+  getProducts(options: ProductOption!): [Product!]!
+  getProduct(id: String!): Product!
   getAllStores: [StoreResponse!]!
   getStore(_id: String!): StoreResponse!
   grains: [Grain!]!
   grain(id: String!): Grain!
+}
+
+input ProductOption {
+  limit: Float
+  nutrients: [String!]
+  grains: [String!]
 }
 
 type Mutation {
@@ -116,7 +123,7 @@ input CreateProductInput {
 }
 
 input IngredientInput {
-  grain: String!
+  grain_id: String!
   proportion: Float!
 }
 
