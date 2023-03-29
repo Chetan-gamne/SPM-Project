@@ -47,6 +47,7 @@ export class AuthResolver {
   }
 
   @Query(() => UserDto)
+
   @UseGuards(GqlAuthGuard)
   me(@Context() ctx: any) {
     return ctx.req.user;

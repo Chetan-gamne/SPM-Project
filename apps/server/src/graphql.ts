@@ -15,15 +15,10 @@ export class ProductOption {
 }
 
 export class CreateUserInput {
-    name: UserName;
+    name: string;
     email: string;
     password: string;
     phone: string;
-}
-
-export class UserName {
-    firstName: string;
-    lastName: string;
 }
 
 export class CreateProductInput {
