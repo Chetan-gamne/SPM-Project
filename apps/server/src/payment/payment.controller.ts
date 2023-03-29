@@ -1,27 +1,27 @@
-import { Controller, Post, Body, Inject } from '@nestjs/common';
-import { PaymentService } from './payment.service';
+import { Controller, Post, Body, Inject } from "@nestjs/common";
+import { PaymentService } from "./payment.service";
 
-@Controller('stripe')
+@Controller("stripe")
 export class PaymentController {
   constructor(
     @Inject(PaymentService)
     private readonly PaymentService: PaymentService,
   ) {}
 
-  @Post('payment-intent')
+  @Post("payment-intent")
   async createPaymentIntent(
-    @Body('amount') amount: number,
-    @Body("name") name:string,
+    @Body("amount") amount: number,
+    @Body("name") name: string,
   ) {
     const clientSecret = await this.PaymentService.createPaymentIntent(
-      amount,name
+      amount,
+      name,
     );
     return { clientSecret };
   }
 
-
-  @Post('verify-payment')
-  async verifyPayment(@Body('id') id : string){
+  @Post("verify-payment")
+  async verifyPayment(@Body("id") id: string) {
     const data = await this.PaymentService.verifyPaymentIntent(id);
     console.log(data);
     return "Worked >";

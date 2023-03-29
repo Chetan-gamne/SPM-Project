@@ -10,30 +10,30 @@ import { UserService } from "./user.service";
 
 @Resolver(() => User)
 export class UserResolver {
-    constructor(private readonly usersService: UserService) {}
+  constructor(private readonly usersService: UserService) {}
 
-    @Query(() => User, { name: 'user', nullable: true })
-    getUser(@Args() getUserArgs: GetUserArgs): User {
-        return this.usersService.getUser(getUserArgs);
-    }
+  // @Query(() => User, { name: 'user', nullable: true })
+  // async getUser(@Args('id') getUserArgs: string): Promise<any> {
+  //     return this.usersService.getUserById(getUserArgs);
+  // }
 
-    @Query(() => [User], { name: 'users', nullable: 'items' })
-    getUsers(@Args() getUsersArgs: GetUsersArgs): User[] {
-        return this.usersService.getUsers(getUsersArgs);
-    }
+  // @Query(() => [User], { name: 'users', nullable: 'items' })
+  // async getUsers(): Promise<any> {
+  //     return this.usersService.getUsers();
+  // }
 
-    @Mutation(() => User)
-    createUser(@Args('createUserData') createUserData: CreateUserInput): User {
-        return this.usersService.createUser(createUserData);
-    }
+  // @Mutation(() => User)
+  // async createUser(@Args('createUserData') createUserData: CreateUserInput): Promise<User> {
+  //     return this.usersService.createUser(createUserData);
+  // }
 
-    @Mutation(() => User)
-    updateUser(@Args('updateUserData') updateUserData: UpdateUserInput): User {
-        return this.usersService.updateUser(updateUserData);
-    }
+  // @Mutation(() => User)
+  // updateUser(@Args('updateUserData') updateUserData: UpdateUserInput): User {
+  //     return this.usersService.updateUser(updateUserData);
+  // }
 
-    @Mutation(() => User)
-    deleteUser(@Args('deleteUserData') deleteUserData: DeleteUserInput): User {
-        return this.usersService.deleteUser(deleteUserData);
-    }
+  // @Mutation(() => User)
+  // deleteUser(@Args('deleteUserData') deleteUserData: DeleteUserInput): User {
+  //     return this.usersService.deleteUser(deleteUserData);
+  // }
 }
