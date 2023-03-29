@@ -42,7 +42,7 @@ export class UpdateInput {
 @InputType()
 export class IngredientInput {
   @Field()
-  grain: string;
+  grain_id: string;
   @Field()
   proportion: number;
 }

@@ -118,7 +118,7 @@ input CreateProductInput {
 }
 
 input IngredientInput {
-  grain: String!
+  grain_id: String!
   proportion: Float!
 }
 

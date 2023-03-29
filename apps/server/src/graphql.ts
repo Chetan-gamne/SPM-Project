@@ -29,7 +29,7 @@ export class CreateProductInput {
 }
 
 export class IngredientInput {
-    grain: string;
+    grain_id: string;
     proportion: number;
 }
 

@@ -47,7 +47,7 @@ export class AuthResolver {
   }
 
   @Query(() => UserDto)
-  // @UseGuards(GqlAuthGuard, new RoleGuard([Roles.Customer]))
+
   @UseGuards(GqlAuthGuard)
   me(@Context() ctx: any) {
     return ctx.req.user;

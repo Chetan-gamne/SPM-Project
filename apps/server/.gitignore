@@ -3,6 +3,8 @@ src/idp/firebaseServiceAccount.json
 dist
 node_modules
 .env
+
 src/IDP/firebase.json
 src/idp/firebaseIDP/firebase.json
 firebase.json
+src/IDP/firebaseIDP/firebase.json
