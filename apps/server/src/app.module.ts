@@ -13,9 +13,17 @@ import { MailModule } from "src/mail/mail.module";
 import { IDPModule } from "src/idp/idp.module";
 import constants from "./idp/constants";
 import { GrainsModule } from "./grains/grains.module";
+import { PaymentModule } from "./payment/payment.module";
 @Module({
   imports: [
     ConfigModule.forRoot(),
+    // LoggerModule.forRoot({
+    //   pinoHttp: {
+    //     transport: {
+    //       target: 'pino-pretty',
+    //     },
+    //   },
+    // }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), "src/schema.gql"),
@@ -35,6 +43,7 @@ import { GrainsModule } from "./grains/grains.module";
     ProductModule,
     StoreModule,
     GrainsModule,
+    PaymentModule,
   ],
   controllers: [AppController],
   providers: [AppService],

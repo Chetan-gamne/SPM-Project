@@ -11,6 +11,6 @@ export interface Product {
 }
 
 interface Ingredient {
-  grain: string;
+  grain_id: string;
   proportion: number;
 }
