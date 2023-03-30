@@ -16,7 +16,6 @@ export class AuthResolver {
   //Mutatation for Registration of new user
   @Mutation(() => RegisterResponseDTO)
   register(@Args("createUser") data: CreateUserInput) {
-    console.log("Query Hit");
     try {
       return this.AuthService.register(data);
     } catch (err) {
