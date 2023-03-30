@@ -29,7 +29,7 @@ export class AuthService {
       const data = {
         ...args,
         role: Roles.Customer,
-        displayName: args.name.firstName + " " + args.name.lastName,
+        displayName: args.name,
         emailVerified: false,
         phoneNumber: args.phone,
         createdDate: new Date(Date.now()),

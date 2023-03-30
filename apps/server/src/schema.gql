@@ -104,15 +104,10 @@ type Mutation {
 }
 
 input CreateUserInput {
-  name: UserName!
+  name: String!
   email: String!
   password: String!
   phone: String!
-}
-
-input UserName {
-  firstName: String!
-  lastName: String!
 }
 
 input CreateProductInput {
