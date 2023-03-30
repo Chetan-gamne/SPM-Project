@@ -41,7 +41,11 @@ const SignUp: NextPage = () => {
     // const { name, email, password } = user;
     console.log("User : ", user);
     try {
-      const { data } = await registerUser({ variables: { createUser: user } });
+      const { data } = await registerUser({
+        variables: {
+          createUser: user,
+        },
+      });
       router.push("/login");
     } catch (err: any) {
       /* sanity.io is boycott for the people from Iran so I set cookies for whom don't use VPN in Iran*/

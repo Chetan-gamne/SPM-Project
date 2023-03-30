@@ -30,7 +30,7 @@ const SocialPart = () => {
           })}
         </div>
       </div>
-      <div className="mt-6">
+      {/* <div className="mt-6">
         <h2 className="text-md sm:text-lg">{t.emailRegister}</h2>
         <form
           className="flex items-center flex-wrap sm:flex-nowrap mt-4 "
@@ -50,7 +50,7 @@ const SocialPart = () => {
             {t.register}
           </button>
         </form>
-      </div>
+      </div> */}
     </div>
   );
 };

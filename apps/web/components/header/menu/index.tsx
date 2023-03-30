@@ -5,8 +5,8 @@ import MegaMenu from "./MegaMenu";
 const index = () => {
   return (
     <>
-      <SideBarMenu />
-      <MegaMenu />
+      {/* <SideBarMenu />
+      <MegaMenu /> */}
     </>
   );
 };

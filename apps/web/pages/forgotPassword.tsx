@@ -5,6 +5,7 @@ import { getError } from "../utilities/error";
 import { toast } from "react-toastify";
 import { useTheme } from "next-themes";
 import { Router, useRouter } from "next/dist/client/router";
+import { ClipLoader } from "react-spinners";
 const FORGOT_PASSWORD_MUTATION = gql`
   mutation ForgotPassword($email: String!) {
     forgotPassword(email: $email) {
@@ -18,10 +19,12 @@ const forgotPassword = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
   const { theme } = useTheme();
+  const [loader, setLoader] = useState(false);
   const [forgot, { data, loading, error }] = useMutation(
     FORGOT_PASSWORD_MUTATION
   );
   const submitHandler = async () => {
+    setLoader(true);
     try {
       if (
         email.length == 0 ||
@@ -34,6 +37,7 @@ const forgotPassword = () => {
       }
       console.log("Email: ", email);
       const { data } = await forgot({ variables: { email: email } });
+      setLoader(false);
       toast.success(
         "Email Has Been Sent Successfully! Reset Your Password & Login Again.",
         { theme: theme === "dark" ? "dark" : "light", autoClose: 10000 }
@@ -42,6 +46,7 @@ const forgotPassword = () => {
         router.push("/login");
       }, 5000);
     } catch (error) {
+      setLoader(false);
       console.log("Hello");
       console.log(error);
       setErrorMessage(getError(error));
@@ -82,7 +87,17 @@ const forgotPassword = () => {
               type="button"
               onClick={() => submitHandler()}
             >
-              Forgot Password
+              {loader ? (
+                <ClipLoader
+                  color={"white"}
+                  loading={loader}
+                  size={30}
+                  aria-label="Loading Spinner"
+                  data-testid="loader"
+                />
+              ) : (
+                "Forgot Password"
+              )}
             </button>
           </div>
           {errorMessage && (
