@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import React from 'react'
+import React from "react";
 // import { useEffect } from "react";
 import dynamic from "next/dynamic";
 
@@ -46,22 +46,19 @@ import { IProduct } from "../lib/types/products";
 //   );
 // };
 
-
-
 const Home = (props: { products: any }) => {
   return (
     <div>
-       <Carousel />
-       <Benefits />
-       {/* <Offers /> */}
-       <Category />
-       {/* <Newest /> */}
-       <Banners />
-       <Brands />
+      <Carousel />
+      <Benefits />
+      {/* <Offers /> */}
+      {/* <Category /> */}
+      {/* <Newest /> */}
+      <Banners />
+      <Brands />
     </div>
-  )
-}
-
+  );
+};
 
 export default Home;
 

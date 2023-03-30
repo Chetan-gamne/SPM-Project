@@ -6,7 +6,7 @@ import Settings from "./Settings";
 import SearchBar from "./SearchBar";
 import CartIcon from "../cart/CartIcon";
 import Language from "./language/Language";
-import ClientOnly from "../../services/ClientOnly";
+
 const UserBox = dynamic(() => import("./user"), {
   ssr: false,
 });
@@ -16,7 +16,7 @@ const Theme = dynamic(() => import("./theme/Theme"), {
 
 const index = () => {
   return (
-    <header className="md:fixed left-0 right-0 top-0 md:bg-palette-fill shadow-sm pt-4 z-[1000]">
+    <header className="md:fixed left-0 right-0 top-0 md:bg-white shadow-sm pt-4 z-[1000]">
       <div className="flex flex-col md:px-4 mb-2">
         <div className="flex items-center justify-between md:order-2 md:mt-2  relative">
           <Menu />

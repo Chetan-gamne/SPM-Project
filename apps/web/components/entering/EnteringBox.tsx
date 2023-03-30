@@ -1,8 +1,10 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Input from "../UI/Input";
 import { useLanguage } from "../../hooks/useLanguage";
 import { IUser } from "../../lib/types/user";
+import { ImSpinner2 } from "react-icons/im";
+import ClipLoader from "react-spinners/ClipLoader";
 
 interface Props {
   title: string;
@@ -20,6 +22,7 @@ const EnteringBox: React.FC<Props> = ({
   const phoneRef = useRef<HTMLInputElement | null>(null);
   const errorMessageRef = useRef<HTMLSpanElement | null>(null);
   const { t } = useLanguage();
+  const [loader, setLoader] = useState(false);
 
   if (errorMessage) {
     title === "signUp" ? userNameRef.current?.focus() : null;
@@ -27,7 +30,8 @@ const EnteringBox: React.FC<Props> = ({
     passwordRef.current?.focus();
   }
 
-  function onSubmitHandler(e: React.FormEvent) {
+  async function onSubmitHandler(e: React.FormEvent) {
+    setLoader(true);
     e.preventDefault();
     if (passwordRef.current?.value && emailRef.current?.value) {
       let user: IUser | null = null;
@@ -45,7 +49,8 @@ const EnteringBox: React.FC<Props> = ({
           email: emailRef.current?.value,
         };
       }
-      submitHandler(user);
+      await submitHandler(user);
+      setLoader(false);
       // userNameRef.current.changeValue('');
       // passwordRef.current.changeValue('');
       // emailRef.current.changeValue('');
@@ -97,14 +102,19 @@ const EnteringBox: React.FC<Props> = ({
             />
 
             {title === "signUp" ? (
-              <Input
-                ref={phoneRef}
-                type="text"
-                maxLength={10}
-                id="phone"
-                placeholder="enterYourPhoneNumber"
-                required={true}
-              />
+              <div className="flex items-center justify-center">
+                <label className="flex-[0.1]">+91</label>
+                <div className="flex-1">
+                  <Input
+                    ref={phoneRef}
+                    type="text"
+                    maxLength={10}
+                    id="phone"
+                    placeholder="enterYourPhoneNumber"
+                    required={true}
+                  />
+                </div>
+              </div>
             ) : null}
           </div>
           {errorMessage && (
@@ -118,9 +128,20 @@ const EnteringBox: React.FC<Props> = ({
 
           <button
             type="submit"
-            className="bg-palette-primary w-full py-4 rounded-lg text-palette-side text-xl shadow-lg"
+            className={`bg-palette-primary w-full py-4 rounded-lg text-palette-side
+             text-xl shadow-lg flex justify-center`}
           >
-            {t[`${title}`]}
+            {loader ? (
+              <ClipLoader
+                color={"white"}
+                loading={loader}
+                size={30}
+                aria-label="Loading Spinner"
+                data-testid="loader"
+              />
+            ) : (
+              t[`${title}`]
+            )}
           </button>
         </form>
         <Link href={`/${linkHref}`}>

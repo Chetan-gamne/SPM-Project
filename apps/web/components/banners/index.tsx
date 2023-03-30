@@ -5,7 +5,7 @@ import SectionTitle from "../UI/SectionTitle";
 
 const Banner = () => {
   return (
-    <div className="flex items-center flex-col w-full xl:max-w-[2100px] my-4 md:my-8 mx-auto">
+    <div className="flex items-center flex-col w-full xl:max-w-[1100px] my-4 md:my-8 mx-auto">
       <SectionTitle title={"Special Proudcts"} />
       <div className="grid gap-4 grid-cols-6 lg:grid-cols-12">
         {bannerContent.map(

@@ -7,10 +7,10 @@ const Brands = () => {
   const settings = {
     infinite: true,
     speed: 6000,
-    slidesToShow: 8,
-    slidesToScroll: 4,
+    slidesToShow: 4,
+    slidesToScroll: 3,
     autoplay: true,
-    autoplaySpeed: 8000,
+    autoplaySpeed: 4000,
     cssEase: "linear",
     swipeToSlide: true,
     responsive: [
@@ -39,7 +39,7 @@ const Brands = () => {
   };
   return (
     <div className="p-1 my-4 md:my-8 text-center">
-      <SectionTitle title={"popularBrands"} />
+      <SectionTitle title={"Popular Products"} />
       <Slider {...settings}>
         {brandContent.map((brandItem) => {
           return (
