@@ -6,13 +6,14 @@ import constants from "src/database/constants";
 import constants2 from "src/idp/constants";
 import { StoreResolver } from "./store.resolver";
 import { StoreService } from "./store.service";
+import { UserService } from "src/user/user.service";
 
 @Module({
   imports: [
     DatabaseModule.forRoot(constants.DATABASE_PROVIDER_ARANGO),
     IDPModule.forRoot(constants2.IDENTITY_PROVIDER_FIREBASE),
   ],
-  providers: [StoreService, StoreResolver, GqlAuthGuard],
+  providers: [StoreService, StoreResolver, GqlAuthGuard, UserService],
   exports: [StoreService],
 })
 export class StoreModule {}

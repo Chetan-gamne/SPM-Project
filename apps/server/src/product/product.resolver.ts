@@ -27,14 +27,14 @@ export class ProductResolver {
     return this.productService.deleteProduct(_id);
   }
 
-  @Query(() => [Product])
-  getProducts(@Args("options") options: ProductOption) {
-    console.log("Query Hit!");
-    return this.productService.getAllProducts(options);
+  @Query(() => Product)
+  getProduct(@Args("_id") _id: string) {
+    return this.productService.getProduct(_id);
   }
 
-  @Query(() => Product)
-  getProduct(@Args("id") id: string) {
-    return this.productService.getProduct(id);
+  @Query(() => [Product])
+  getProducts(@Args("options") options: ProductOption) {
+    //location based products logic
+    return this.productService.getAllProducts(options);
   }
 }

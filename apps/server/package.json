@@ -48,12 +48,12 @@
     "nodemailer": "^6.9.1",
     "pino-http": "^8.3.3",
     "pino-pretty": "^9.1.1",
-    "razorpay": "^2.8.6",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
-    "stripe": "^11.16.0",
-    "ts-morph": "^17.0.1"
+    "stripe": "^11.17.0",
+    "ts-morph": "^17.0.1",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^9.0.0",

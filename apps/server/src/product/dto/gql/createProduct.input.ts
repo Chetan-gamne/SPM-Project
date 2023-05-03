@@ -11,6 +11,9 @@ export class CreateProductInput {
   @Field()
   price: number;
 
+  @Field()
+  imgUrl: string;
+
   @Field(() => [IngredientInput])
   ingredients: Array<IngredientInput>;
 }
@@ -34,6 +37,9 @@ export class UpdateInput {
 
   @Field({ nullable: true })
   price: number;
+
+  @Field({ nullable: true })
+  imgUrl: string;
 
   @Field(() => [IngredientInput], { nullable: true })
   ingredients: Array<IngredientInput>;

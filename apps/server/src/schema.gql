@@ -3,6 +3,7 @@
 # ------------------------------------------------------
 
 type RegisterResponseDTO {
+  name: String!
   id: String!
   email: String!
   role: String!
@@ -14,9 +15,11 @@ type RegisterResponseDTO {
 type UserDto {
   name: String
   email: String!
-  uid: String!
-  email_verified: Boolean!
-  phone_number: String
+  id: String!
+  emailVerified: Boolean!
+  phone: String
+  role: String!
+  user_dbid: String!
 }
 
 type ResponseDTO {
@@ -90,24 +93,37 @@ type Grain {
   imgUrl: String
 }
 
-type Orders {
+type Order {
+  _id: String!
   user_id: String!
-  address: String!
-  contact_info: String!
   amount: Float!
+  address: String!
+  latitude: String
+  longitude: String
   transaction_id: String!
+  order_status: [String!]!
+  payment_status: [String!]!
+  createdAt: String!
+  contact_info: String!
+  product_details: [ProductDetails!]!
+}
+
+type ProductDetails {
+  product_id: String!
+  quantity: Float!
 }
 
 type Query {
   me: UserDto!
-  users: [User]!
+  getProduct(_id: String!): Product!
   getProducts(options: ProductOption!): [Product!]!
-  getProduct(id: String!): Product!
   getAllStores: [StoreResponse!]!
   getStore(_id: String!): StoreResponse!
   grains: [Grain!]!
   grain(id: String!): Grain!
-  orders: [Orders]!
+  getOrders: [Order!]!
+  getUserOrders(user_id: String!): [Order!]!
+  getOrder(_id: String!): Order!
 }
 
 input ProductOption {
@@ -130,6 +146,9 @@ type Mutation {
   createGrain(createGrainInput: CreateGrainInput!): Grain!
   updateGrain(updateGrainInput: UpdateGrainInput!): Grain!
   removeGrain(id: String!): Grain!
+  createOrder(createOrderInput: CreateOrderInput!): Order!
+  updateOrder(updateOrderInput: UpdateOrderInput!): Order!
+  deleteOrder(_id: String!): String!
 }
 
 input CreateUserInput {
@@ -143,6 +162,7 @@ input CreateProductInput {
   name: String!
   description: String
   price: Float!
+  imgUrl: String!
   ingredients: [IngredientInput!]!
 }
 
@@ -197,4 +217,37 @@ input UpdateGrainInput {
   nutrition: String
   imgUrl: String
   id: ID!
+}
+
+input CreateOrderInput {
+  user_id: String!
+  address: String!
+  latitude: String!
+  longitude: String!
+  contact_info: String!
+  product_details: [ProductDetailsInput!]!
+}
+
+input ProductDetailsInput {
+  product_id: String!
+  quantity: Float!
+}
+
+input UpdateOrderInput {
+  _id: String!
+  body: UpdateOrderBody!
+}
+
+input UpdateOrderBody {
+  user_id: String
+  address: String
+  latitude: String
+  longitude: String
+  contact_info: String
+  product_details: [ProductDetailsUpdate!]
+}
+
+input ProductDetailsUpdate {
+  product_id: String!
+  quantity: Float!
 }
