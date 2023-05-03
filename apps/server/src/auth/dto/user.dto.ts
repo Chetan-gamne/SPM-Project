@@ -9,11 +9,17 @@ export class UserDto {
   email: string;
 
   @Field()
-  uid: string;
+  id: string;
 
   @Field()
-  email_verified: boolean;
+  emailVerified: boolean;
 
   @Field({ nullable: true })
-  phone_number?: string;
+  phone?: string;
+
+  @Field()
+  role: string;
+
+  @Field()
+  user_dbid: string;
 }

@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Inject } from "@nestjs/common";
+import { Controller, Post, Body, Inject, Get } from "@nestjs/common";
 import { PaymentService } from "./payment.service";
 
 @Controller("stripe")
@@ -8,14 +8,15 @@ export class PaymentController {
     private readonly PaymentService: PaymentService,
   ) {}
 
+  @Get("")
+  async sendHello() {
+    return "Hello World";
+  }
+
   @Post("payment-intent")
-  async createPaymentIntent(
-    @Body("amount") amount: number,
-    @Body("name") name: string,
-  ) {
+  async createPaymentIntent(@Body("orderData") orderData: any) {
     const clientSecret = await this.PaymentService.createPaymentIntent(
-      amount,
-      name,
+      orderData,
     );
     return { clientSecret };
   }
@@ -23,7 +24,6 @@ export class PaymentController {
   @Post("verify-payment")
   async verifyPayment(@Body("id") id: string) {
     const data = await this.PaymentService.verifyPaymentIntent(id);
-    console.log(data);
-    return "Worked >";
+    return data;
   }
 }

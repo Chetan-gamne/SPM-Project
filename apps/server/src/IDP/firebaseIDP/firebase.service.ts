@@ -49,11 +49,22 @@ export class FirebaseService {
   }
 
   // To Verify JWT Token returns decode payload
-  async verify(token: string): Promise<DecodedIdToken> {
+  async verify(token: string): Promise<IdpUser> {
     try {
       if (!token) return null;
       const decodedToken = await this.authInstance.verifyIdToken(token);
-      return decodedToken;
+      const newUserRecord = await this.authInstance.getUser(decodedToken.uid);
+      console.log("newUserRecord: " + JSON.stringify(newUserRecord));
+      return {
+        id: newUserRecord.uid,
+        email: newUserRecord.email,
+        displayName: newUserRecord.displayName,
+        role: newUserRecord.customClaims.role,
+        emailVerified: newUserRecord.emailVerified,
+        isEnabled: !newUserRecord.disabled,
+        creationTime: newUserRecord.metadata.creationTime,
+        phone: newUserRecord.phoneNumber,
+      };
     } catch (error) {
       throw error;
     }
@@ -73,6 +84,7 @@ export class FirebaseService {
       return {
         id: newUserRecord.uid,
         email: newUserRecord.email,
+        displayName: newUserRecord.displayName,
         role: newUserRecord.customClaims.role,
         emailVerified: newUserRecord.emailVerified,
         isEnabled: !newUserRecord.disabled,

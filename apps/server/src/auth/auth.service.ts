@@ -10,6 +10,7 @@ import { ResponseDTO } from "./dto/response.dto";
 import { UserService } from "src/user/user.service";
 import { Roles } from "./roles.enum";
 import { MailService } from "src/mail/mail.service";
+import { RegisterResponseDTO } from "./dto/response/register.dto";
 @Injectable()
 export class AuthService {
   constructor(
@@ -18,7 +19,7 @@ export class AuthService {
     private userService: UserService,
     private mailService: MailService,
   ) {}
-  async register(args: CreateUserInput): Promise<IdpUser | string> {
+  async register(args: CreateUserInput): Promise<RegisterResponseDTO | string> {
     try {
       const user = await this.userService.getUserByEmail(args.email);
 
@@ -56,7 +57,15 @@ export class AuthService {
           companyName: "Chakii",
         },
       });
-      return idpUser;
+      return {
+        name: idpUser.displayName,
+        creationTime: idpUser.creationTime,
+        email: idpUser.email,
+        emailVerified: idpUser.emailVerified,
+        id: idpUser.id,
+        isEnabled: idpUser.isEnabled,
+        role: idpUser.role,
+      };
     } catch (error) {
       throw error;
     }
