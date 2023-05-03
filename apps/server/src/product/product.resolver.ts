@@ -26,8 +26,14 @@ export class ProductResolver {
     return this.productService.deleteProduct(_id);
   }
 
+  @Query(() => Product)
+  getProduct(@Args("_id") _id: string) {
+    return this.productService.getProduct(_id);
+  }
+
   @Query(() => [Product])
   getProducts() {
+    //location based products logic
     console.log("executed");
     return this.productService.getAllProducts();
   }

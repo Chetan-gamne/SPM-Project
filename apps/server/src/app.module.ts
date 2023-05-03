@@ -13,6 +13,9 @@ import { MailModule } from "src/mail/mail.module";
 import { IDPModule } from "src/idp/idp.module";
 import constants from "./idp/constants";
 import { GrainsModule } from "./grains/grains.module";
+import { PaymentController } from "./payment/payment.controller";
+import { PaymentService } from "./payment/payment.service";
+import { OrdersModule } from './orders/orders.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -35,8 +38,9 @@ import { GrainsModule } from "./grains/grains.module";
     ProductModule,
     StoreModule,
     GrainsModule,
+    OrdersModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, PaymentController],
+  providers: [AppService, PaymentService],
 })
 export class AppModule {}

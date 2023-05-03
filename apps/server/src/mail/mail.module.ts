@@ -11,8 +11,8 @@ import { MailService } from "./mail.service";
       transport: {
         host: "smtp-relay.sendinblue.com",
         auth: {
-          user: "spm.unofficial.project@gmail.com",
-          pass: "M31AdQSJ29BjYbRK",
+          user: "prathamesh.temp.temp@gmail.com",
+          pass: "9rKXxnkTdtLDmYB7",
         },
       },
       template: {

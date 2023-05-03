@@ -16,6 +16,8 @@ export class AuthResolver {
   //Mutatation for Registration of new user
   @Mutation(() => RegisterResponseDTO)
   register(@Args("createUser") data: CreateUserInput) {
+    console.log("Request Coming");
+    console.log(data);
     try {
       return this.AuthService.register(data);
     } catch (err) {
@@ -49,6 +51,7 @@ export class AuthResolver {
   @Query(() => UserDto)
   @UseGuards(GqlAuthGuard, new RoleGuard([Roles.Customer]))
   me(@Context() ctx: any) {
+    console.log("user from context ", ctx.req.user);
     return ctx.req.user;
   }
 }

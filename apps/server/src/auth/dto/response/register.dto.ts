@@ -14,6 +14,9 @@ class IClaims {
 @ObjectType()
 export class RegisterResponseDTO {
   @Field()
+  name: string;
+
+  @Field()
   id: string;
 
   @Field()

@@ -13,6 +13,7 @@ export interface IdpUser {
   role?: string | null;
   creationTime: string;
   displayName?: string;
+  phone?: string;
 }
 
 export interface ICreateUserRequest {
@@ -35,7 +36,7 @@ export interface IIdentityProviderService {
   getUserById(id: string): Promise<IdpUser | null>;
   getUserByEmail(email: string): Promise<IdpUser | null>;
   updateUser(id: string, request: IUpdateUserRequest): Promise<void>;
-  verify(token: string): Promise<DecodedIdToken>;
+  verify(token: string): Promise<IdpUser>;
   generatePasswordResetLink(email: string): Promise<string>;
   generateEmailVerificationLink(email: string): Promise<string>;
 }

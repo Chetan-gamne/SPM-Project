@@ -28,3 +28,19 @@ export class Product {
   @Field({ nullable: true })
   imgUrl: string;
 }
+
+// {
+//   "_id":"df4g6d4gfdjdhfiuye80wyr",
+//   "name":"Fresh Wheat Flour",
+//   "description":"lorem ipsum dolor sit amet, consectetur adipiscing",
+//   "price":"34", //in Rs.Price
+//   "imgUrl:"www.google.com/img/imfskl/fdsf",
+//   "ingredients":[{
+//     "grain_id":"grains/4343432",
+//     "proportion":"0.3",
+//   },
+//   {
+//     "grain_id":"grains/4343432",
+//     "proportion":"0.3",
+//   }]
+// }
