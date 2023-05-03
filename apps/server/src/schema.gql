@@ -23,6 +23,25 @@ type ResponseDTO {
   msg: String
 }
 
+type User {
+  userId: String
+  name: String
+  email: String
+  age: Int
+  userAddress: String
+  phone: Float
+  userLocation: String
+  idp: String
+  idp_Id: String
+  timestamp: DateTime
+  isSubscribed: Boolean
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type Ingredient {
   grain_id: String!
   proportion: String!
@@ -71,14 +90,24 @@ type Grain {
   imgUrl: String
 }
 
+type Orders {
+  user_id: String!
+  address: String!
+  contact_info: String!
+  amount: Float!
+  transaction_id: String!
+}
+
 type Query {
   me: UserDto!
+  users: [User]!
   getProducts(options: ProductOption!): [Product!]!
   getProduct(id: String!): Product!
   getAllStores: [StoreResponse!]!
   getStore(_id: String!): StoreResponse!
   grains: [Grain!]!
   grain(id: String!): Grain!
+  orders: [Orders]!
 }
 
 input ProductOption {

@@ -102,6 +102,20 @@ export class ResponseDTO {
     msg?: Nullable<string>;
 }
 
+export class User {
+    userId?: Nullable<string>;
+    name?: Nullable<string>;
+    email?: Nullable<string>;
+    age?: Nullable<number>;
+    userAddress?: Nullable<string>;
+    phone?: Nullable<number>;
+    userLocation?: Nullable<string>;
+    idp?: Nullable<string>;
+    idp_Id?: Nullable<string>;
+    timestamp?: Nullable<DateTime>;
+    isSubscribed?: Nullable<boolean>;
+}
+
 export class Ingredient {
     grain_id: string;
     proportion: string;
@@ -139,8 +153,18 @@ export class Grain {
     imgUrl?: Nullable<string>;
 }
 
+export class Orders {
+    user_id: string;
+    address: string;
+    contact_info: string;
+    amount: number;
+    transaction_id: string;
+}
+
 export abstract class IQuery {
     abstract me(): UserDto | Promise<UserDto>;
+
+    abstract users(): Nullable<User>[] | Promise<Nullable<User>[]>;
 
     abstract getProducts(options: ProductOption): Product[] | Promise<Product[]>;
 
@@ -153,6 +177,8 @@ export abstract class IQuery {
     abstract grains(): Grain[] | Promise<Grain[]>;
 
     abstract grain(id: string): Grain | Promise<Grain>;
+
+    abstract orders(): Nullable<Orders>[] | Promise<Nullable<Orders>[]>;
 }
 
 export abstract class IMutation {
@@ -183,4 +209,5 @@ export abstract class IMutation {
     abstract removeGrain(id: string): Grain | Promise<Grain>;
 }
 
+export type DateTime = any;
 type Nullable<T> = T | null;

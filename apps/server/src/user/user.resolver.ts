@@ -17,10 +17,11 @@ export class UserResolver {
   //     return this.usersService.getUserById(getUserArgs);
   // }
 
-  // @Query(() => [User], { name: 'users', nullable: 'items' })
-  // async getUsers(): Promise<any> {
-  //     return this.usersService.getUsers();
-  // }
+  @Query(() => [User], { name: 'users', nullable: 'items' })
+  async getUsers(): Promise<any> {
+    console.log("User Query Hit")
+      return this.usersService.getUsers();
+  }
 
   // @Mutation(() => User)
   // async createUser(@Args('createUserData') createUserData: CreateUserInput): Promise<User> {

@@ -3,31 +3,31 @@ import { first, Timestamp } from "rxjs";
 
 @ObjectType()
 export class User {
-    @Field()
+    @Field({nullable:true})
     userId: string;
     
-    @Field()
-    userName: string;
+    @Field({nullable:true})
+    name: string;
 
-    @Field()
+    @Field({nullable:true})
     email: string;
 
-    @Field(() => Int)
+    @Field(() => Int,{nullable: true})
     age: number;
 
     @Field({ nullable: true })
     userAddress: string;
 
-    @Field()
-    phoneNumber: number;
+    @Field({nullable:true})
+    phone: number;
 
-    @Field()
+    @Field({nullable:true})
     userLocation: string;
 
-    @Field()
+    @Field({nullable:true})
     idp: string;
 
-    @Field()
+    @Field({nullable:true})
     idp_Id: string;
 
     @Field({ nullable: true })

@@ -14,6 +14,7 @@ import { IDPModule } from "src/idp/idp.module";
 import constants from "./idp/constants";
 import { GrainsModule } from "./grains/grains.module";
 import { PaymentModule } from "./payment/payment.module";
+import { OrdersModule } from "./orders/orders.module";
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -44,6 +45,7 @@ import { PaymentModule } from "./payment/payment.module";
     StoreModule,
     GrainsModule,
     PaymentModule,
+    OrdersModule
   ],
   controllers: [AppController],
   providers: [AppService],
