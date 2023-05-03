@@ -19,6 +19,13 @@ import { OrdersModule } from './orders/orders.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
+    // LoggerModule.forRoot({
+    //   pinoHttp: {
+    //     transport: {
+    //       target: 'pino-pretty',
+    //     },
+    //   },
+    // }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), "src/schema.gql"),

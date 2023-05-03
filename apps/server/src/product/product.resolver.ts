@@ -4,6 +4,7 @@ import {
   UpdateProductInput,
 } from "./dto/gql/createProduct.input";
 import { Product } from "./dto/gql/product.dto";
+import { ProductOption } from "./dto/productOption.dto";
 import { ProductService } from "./product.service";
 
 @Resolver()
@@ -32,9 +33,8 @@ export class ProductResolver {
   }
 
   @Query(() => [Product])
-  getProducts() {
+  getProducts(@Args("options") options: ProductOption) {
     //location based products logic
-    console.log("executed");
-    return this.productService.getAllProducts();
+    return this.productService.getAllProducts(options);
   }
 }

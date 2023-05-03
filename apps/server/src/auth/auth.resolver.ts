@@ -49,7 +49,8 @@ export class AuthResolver {
   }
 
   @Query(() => UserDto)
-  @UseGuards(GqlAuthGuard, new RoleGuard([Roles.Customer]))
+
+  @UseGuards(GqlAuthGuard)
   me(@Context() ctx: any) {
     console.log("user from context ", ctx.req.user);
     return ctx.req.user;

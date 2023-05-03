@@ -12,6 +12,11 @@ export class AppController {
     response.send("Hello " + request["user"]?.email + "!");
   }
 
+  @Get("/")
+  getHome(){
+    return "Hello";
+  }
+
   // @Post('create')
   // addUser(@Body() userData) {
   //   return this.IDPService.createUser(userData);

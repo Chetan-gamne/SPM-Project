@@ -97,7 +97,7 @@ type ProductDetails {
 type Query {
   me: UserDto!
   getProduct(_id: String!): Product!
-  getProducts: [Product!]!
+  getProducts(options: ProductOption!): [Product!]!
   getAllStores: [StoreResponse!]!
   getStore(_id: String!): StoreResponse!
   grains: [Grain!]!
@@ -105,6 +105,12 @@ type Query {
   getOrders: [Order!]!
   getUserOrders(user_id: String!): [Order!]!
   getOrder(_id: String!): Order!
+}
+
+input ProductOption {
+  limit: Float
+  nutrients: [String!]
+  grains: [String!]
 }
 
 type Mutation {
