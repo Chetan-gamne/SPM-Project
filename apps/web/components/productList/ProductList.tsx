@@ -1,48 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useLanguage } from "../../hooks/useLanguage";
-import { IProduct, SProduct } from "../../lib/types/products";
-import SubmenuCategory from "./SubmenuCategory";
+import { SProduct } from "../../lib/types/products";
 import Card from "../UI/card/Card";
-import Breadcrumb from "../UI/Breadcrumb";
 import Sort from "./Sort";
-import { useDispatch, useSelector } from "react-redux";
-import { SortedProductsListActions } from "../../store/sortedProductList-slice";
-import { useRouter } from "next/router";
-import { IProductListRootState } from "../../lib/types/productList";
-
 interface Props {
   productList: SProduct[];
 }
 const ProductList: React.FC<Props> = ({ productList }) => {
-  const router = useRouter();
   const { t } = useLanguage();
-  // let isInNewestProductsPage =
-  //   router.pathname === "/newestProducts" ? true : false;
-
-  // const [selectedRadioBtn, setSelectedRadioBtn] = useState<string>("all");
-  // const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   dispatch(
-  //     SortedProductsListActions.sortProductsList({
-  //       productsList: productList,
-  //       sortBasedOn: selectedRadioBtn,
-  //     })
-  //   );
-  // }, [dispatch, productList, selectedRadioBtn]);
-
-  // const sortedProductList = useSelector(
-  //   (state: IProductListRootState) => state.sortedProductsList.productsList
-  // );
-
-  // function onChangeHandler(e: React.ChangeEvent<HTMLInputElement>) {
-  //   setSelectedRadioBtn(e.currentTarget.id);
-  // }
-
   return (
     <div>
-      {/* <Breadcrumb /> */}
-      <SubmenuCategory />
       <div className="w-full xl:max-w-[2100px] mx-auto">
         <Sort />
         {productList && productList.length ? (

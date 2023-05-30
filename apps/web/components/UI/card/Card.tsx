@@ -23,28 +23,18 @@ const Card: React.FC<Props> = ({ product }) => {
                 width={280}
                 height={300}
                 alt={product.name}
-                className="h-full drop-shadow-xl object-contain hover:scale-110 transition-transform duration-300 ease-in-out !py-2"
+                className=" drop-shadow-xl object-contain hover:scale-110 transition-transform duration-300 ease-in-out !py-2 "
               />
             </div>
-            {/* {product?.discount ? (
-              <span className="w-8 sm:w-auto block absolute -top-2 -right-2">
-                <Image
-                  src="/images/discount-icon/discount.webp"
-                  width={40}
-                  height={40}
-                  alt="discount-icon"
-                />
-              </span>
-            ) : null} */}
           </div>
           <div className="flex flex-col justify-between  flex-grow  w-1/2 md:w-full  px-1 md:px-3 py-2 md:py-4">
             <div className="flex justify-center md:justify-start flex-col  flex-grow overflow-hidden">
               <div className="self-center">
-                {/* <StarRatingComponent
-                  name={`product_rate_${product.slug.current}`}
+                <StarRatingComponent
+                  name={`product_rate`}
                   starCount={5}
-                  value={product.starRating}
-                /> */}
+                  value={3}
+                />
               </div>
               <h3 className="text-md sm:text-[16px] md:text-md text-center text-palette-mute font-semibold">
                 {product.name}

@@ -90,7 +90,7 @@ const CartItem: React.FC<Props> = ({ product }) => {
           <p>{t.totalAmount}</p>
           <ProductPrice
             price={product.price * counter!}
-            discount={product.discount ?? 10}
+            discount={product.discount ?? 0}
           />
         </div>
       </div>

@@ -11,19 +11,19 @@ export class PaymentController {
   @Post("payment-intent")
   async createPaymentIntent(
     @Body("amount") amount: number,
-    @Body("name") name: string,
+    @Body("orderData") items: any,
   ) {
     const clientSecret = await this.PaymentService.createPaymentIntent(
       amount,
-      name,
+      items,
     );
     return { clientSecret };
   }
 
   @Post("verify-payment")
   async verifyPayment(@Body("id") id: string) {
-    const data = await this.PaymentService.verifyPaymentIntent(id);
-    console.log(data);
-    return "Worked >";
+    const paymentIntent = await this.PaymentService.verifyPaymentIntent(id);
+    console.log(paymentIntent);
+    return { paymentIntent };
   }
 }

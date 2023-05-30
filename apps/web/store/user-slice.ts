@@ -10,7 +10,7 @@ const userInfoSlice = createSlice({
   name: "userInfo",
   initialState,
   reducers: {
-    userLogin(state, action: PayloadAction<IUser>) {
+    userLogin(state, action: PayloadAction<IUser | any>) {
       state.userInformation = action.payload;
     },
     userLogout(state) {

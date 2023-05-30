@@ -67,9 +67,9 @@ const EnteringBox: React.FC<Props> = ({
           {title === "login" ? (
             <>
               <br />
-              <span className="inline-block text-palette-mute dark:text-palette-base/80 text-[12px] mt-2 bg-palette-fill p-2">
+              {/* <span className="inline-block text-palette-mute dark:text-palette-base/80 text-[12px] mt-2 bg-palette-fill p-2">
                 {t.loginExplanation}
-              </span>
+              </span> */}
             </>
           ) : null}
         </p>

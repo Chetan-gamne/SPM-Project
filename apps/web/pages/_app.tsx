@@ -11,9 +11,6 @@ import client from "../services/apollo-client";
 import { Provider, useDispatch } from "react-redux";
 import store from "../store/index";
 import "../styles/globals.css";
-import { useEffect } from "react";
-import { cartActions } from "../store/cart-slice";
-
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ApolloProvider client={client}>

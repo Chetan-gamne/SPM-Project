@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { FormEvent, useState } from "react";
 import Link from "next/link";
 import { gql, useMutation } from "@apollo/client";
 import { getError } from "../utilities/error";
@@ -23,7 +23,8 @@ const forgotPassword = () => {
   const [forgot, { data, loading, error }] = useMutation(
     FORGOT_PASSWORD_MUTATION
   );
-  const submitHandler = async () => {
+  const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     setLoader(true);
     try {
       if (
@@ -32,25 +33,25 @@ const forgotPassword = () => {
           /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         )
       ) {
-        setErrorMessage(getError(new Error("Enter Valid Email Address")));
-        return;
+        throw new Error("Enter Valid Email Address");
       }
-      console.log("Email: ", email);
-      const { data } = await forgot({ variables: { email: email } });
+      const { data, errors } = await forgot({ variables: { email: email } });
+      if (errors) {
+        throw new Error("Unable To Send Email at this Moment!");
+      }
       setLoader(false);
       toast.success(
         "Email Has Been Sent Successfully! Reset Your Password & Login Again.",
-        { theme: theme === "dark" ? "dark" : "light", autoClose: 10000 }
+        { theme: "light", autoClose: 10000 }
       );
       setTimeout(() => {
         router.push("/login");
-      }, 5000);
+      }, 3000);
     } catch (error) {
       setLoader(false);
-      console.log("Hello");
-      console.log(error);
-      setErrorMessage(getError(error));
+      setErrorMessage(getError(new Error("Unable To Send E-mail Now!")));
     }
+    setLoader(false);
   };
   return (
     <div className="flex items-center justify-center">
@@ -64,7 +65,10 @@ const forgotPassword = () => {
             we'll send you a link to reset your password!
           </p>
         </div>
-        <form className="px-8 pt-6 pb-8 mb-4 bg-white rounded">
+        <form
+          className="px-8 pt-6 pb-8 mb-4 bg-white rounded"
+          onSubmit={submitHandler}
+        >
           <div className="mb-4">
             <label
               className="block mb-2 text-sm font-bold text-gray-700"
@@ -84,8 +88,7 @@ const forgotPassword = () => {
           <div className="mb-6 text-center">
             <button
               className="w-full bg-palette-primary py-2 rounded-lg text-palette-side text-base shadow-lg"
-              type="button"
-              onClick={() => submitHandler()}
+              type="submit"
             >
               {loader ? (
                 <ClipLoader

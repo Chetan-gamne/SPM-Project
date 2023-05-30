@@ -17,11 +17,32 @@ type UserDto {
   uid: String!
   email_verified: Boolean!
   phone_number: String
+  dbID: String!
 }
 
 type ResponseDTO {
   msg: String
 }
+
+type User {
+  _id: String!
+  name: String!
+  email: String!
+  age: Int
+  address: String
+  phone: String!
+  location: String!
+  idpService: String!
+  idpId: String!
+  roles: [String!]!
+  timestamp: DateTime
+  isSubscribed: Boolean
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
 
 type Ingredient {
   grain_id: String!
@@ -73,6 +94,9 @@ type Grain {
 
 type Query {
   me: UserDto!
+  user(id: String!): User
+  users: [User]!
+  getUserByEmail(email: String!): User
   getProducts(options: ProductOption!): [Product!]!
   getProduct(id: String!): Product!
   getAllStores: [StoreResponse!]!
@@ -92,6 +116,10 @@ type Mutation {
   verify: ResponseDTO!
   forgotPassword(email: String!): ResponseDTO!
   resetPassword(password: String!): ResponseDTO!
+  updateEmail(email: String!): ResponseDTO!
+  createUser(createUserData: CreateUserDBInput!): User!
+  updateUser(id: String!, updateUserData: UpdateUserInput!): User!
+  deleteUser(id: String!): User!
   createProduct(create: CreateProductInput!): Product!
   updateProduct(update: UpdateProductInput!): Product!
   deleteProduct(_id: String!): String!
@@ -108,6 +136,27 @@ input CreateUserInput {
   email: String!
   password: String!
   phone: String!
+}
+
+input CreateUserDBInput {
+  name: String!
+  email: String!
+  age: Float
+  address: String
+  phone: String!
+  location: String
+  idpService: String!
+  idpId: String!
+  roles: [String!]!
+  timestamp: DateTime
+}
+
+input UpdateUserInput {
+  name: String
+  email: String
+  phone: String
+  age: Float
+  isSubscribed: Boolean
 }
 
 input CreateProductInput {

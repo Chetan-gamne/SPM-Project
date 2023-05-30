@@ -10,6 +10,20 @@ import { getError } from "../utilities/error";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { auth, signInWithEmailAndPassword } from "../services/firebase";
+import { UserCredential } from "firebase/auth";
+import { gql } from "@apollo/client";
+import client from "../services/apollo-client";
+const meQuery = gql`
+  query {
+    me {
+      email
+      uid
+      email_verified
+      phone_number
+      dbID
+    }
+  }
+`;
 const Login: NextPage = () => {
   const dispatch = useDispatch();
   const router = useRouter();
@@ -25,20 +39,24 @@ const Login: NextPage = () => {
   async function LoginHandler(user: IUser) {
     const { email, password } = user;
     try {
-      const result = await signInWithEmailAndPassword(
+      const result: any = await signInWithEmailAndPassword(
         auth,
         email,
         password as string
       );
       const token = (await result.user?.accessToken!) ?? "";
-      const res = await fetch("http://localhost:3001/auth/login", {
+      await fetch("http://localhost:3001/auth/login", {
         method: "post",
         headers: {
           authorization: token,
         },
         credentials: "include",
-      }).then((data) => data.json());
-      dispatch(userInfoActions.userLogin(res));
+      });
+      const { error, data, loading } = await client.query({ query: meQuery });
+      if (data) {
+        dispatch(userInfoActions.userLogin(data));
+      }
+      router.replace("/");
     } catch (err: any) {
       setErrorMessage(getError(err));
       console.log(getError(err));

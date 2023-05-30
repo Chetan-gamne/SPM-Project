@@ -1,12 +1,12 @@
 import { UseGuards } from "@nestjs/common";
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
-import { GqlAuthGuard } from "src/auth/gql-auth.guard";
 import { RoleGuard } from "src/auth/role.guard";
 import { Roles } from "src/auth/roles.enum";
 import { CreateStoreInput } from "./dto/create-store";
 import { StoreResponse } from "./dto/store-response";
 import { UpdateStoreInput } from "./dto/update-store";
 import { StoreService } from "./store.service";
+import { AuthGuard } from "src/auth/auth.guard";
 
 @Resolver()
 export class StoreResolver {
@@ -28,7 +28,7 @@ export class StoreResolver {
   }
 
   @Query(() => [StoreResponse])
-  @UseGuards(GqlAuthGuard, new RoleGuard([Roles.Customer, Roles.Admin]))
+  @UseGuards(AuthGuard, new RoleGuard([Roles.Customer, Roles.Admin]))
   getAllStores() {
     return this.storeService.getAllStores();
   }

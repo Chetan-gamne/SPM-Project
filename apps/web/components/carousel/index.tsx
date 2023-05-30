@@ -4,6 +4,7 @@ import Slide from "./Slide";
 import { sliderContent } from "../../mock/slider";
 import { NextArrow, PrevArrow } from "./Arrows";
 import { HiOutlineChevronRight, HiOutlineChevronLeft } from "react-icons/hi";
+import Link from "next/link";
 
 const Carousel = () => {
   const settings = {
@@ -25,21 +26,24 @@ const Carousel = () => {
   };
 
   return (
-    <div className="relative">
-      <Slider {...settings}>
-        {sliderContent.map((slideContent) => {
-          return <Slide key={slideContent.ID} {...slideContent} />;
-        })}
-      </Slider>
-      <>
-        <div className="absolute top-1/2 right-4 md:right-3 lg:right-8 shadow-lg rounded-full bg-palette-card/80 p-1 drop-shadow-lg text-[0.8rem] md:text-[1.8rem]">
-          <HiOutlineChevronRight />
-        </div>
-        <div className="absolute top-1/2 left-4  md:left-3 lg:left-8 shadow-lg rounded-full bg-palette-card/80 p-1 drop-shadow-lg text-[0.8rem] md:text-[1.8rem]">
-          <HiOutlineChevronLeft />
-        </div>
-      </>
-    </div>
+    <Link href={`/products`}>
+      <div className="relative">
+        <Slider {...settings}>
+          {sliderContent.map((slideContent) => {
+            return <Slide key={slideContent.ID} {...slideContent} />;
+          })}
+        </Slider>
+
+        <>
+          <div className="absolute top-1/2 right-4 md:right-3 lg:right-8 shadow-lg rounded-full bg-palette-card/80 p-1 drop-shadow-lg text-[0.8rem] md:text-[1.8rem]">
+            <HiOutlineChevronRight />
+          </div>
+          <div className="absolute top-1/2 left-4  md:left-3 lg:left-8 shadow-lg rounded-full bg-palette-card/80 p-1 drop-shadow-lg text-[0.8rem] md:text-[1.8rem]">
+            <HiOutlineChevronLeft />
+          </div>
+        </>
+      </div>
+    </Link>
   );
 };
 

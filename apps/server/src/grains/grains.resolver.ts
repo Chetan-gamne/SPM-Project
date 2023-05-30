@@ -4,7 +4,6 @@ import { Grain } from "./entities/grain.entity";
 import { CreateGrainInput } from "./dto/create-grain.input";
 import { UpdateGrainInput } from "./dto/update-grain.input";
 import { UseGuards } from "@nestjs/common";
-import { GqlAuthGuard } from "src/auth/gql-auth.guard";
 import { RoleGuard } from "src/auth/role.guard";
 import { Roles } from "src/auth/roles.enum";
 

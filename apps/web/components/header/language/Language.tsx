@@ -27,10 +27,10 @@ const Language = () => {
             language="en"
             onCloseBox={() => dispatch(settingBoxActions.closeSettingBox())}
           />
-          <LanguageItem
+          {/* <LanguageItem
             language="fa"
             onCloseBox={() => dispatch(settingBoxActions.closeSettingBox())}
-          />
+          /> */}
         </div>
       </div>
 

@@ -23,13 +23,11 @@ export class ProductResolver {
 
   @Mutation(() => String)
   deleteProduct(@Args("_id") _id: string) {
-    console.log("executed");
     return this.productService.deleteProduct(_id);
   }
 
   @Query(() => [Product])
   getProducts(@Args("options") options: ProductOption) {
-    console.log("Query Hit!");
     return this.productService.getAllProducts(options);
   }
 

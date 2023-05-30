@@ -3,40 +3,39 @@ import { first, Timestamp } from "rxjs";
 
 @ObjectType()
 export class User {
-    @Field()
-    userId: string;
-    
-    @Field()
-    userName: string;
+  @Field()
+  _id: string;
 
-    @Field()
-    email: string;
+  @Field()
+  name: string;
 
-    @Field(() => Int)
-    age: number;
+  @Field()
+  email: string;
 
-    @Field({ nullable: true })
-    userAddress: string;
+  @Field(() => Int, { nullable: true })
+  age: number;
 
-    @Field()
-    phoneNumber: number;
+  @Field({ nullable: true })
+  address: string;
 
-    @Field()
-    userLocation: string;
+  @Field()
+  phone: string;
 
-    @Field()
-    idp: string;
+  @Field()
+  location: string;
 
-    @Field()
-    idp_Id: string;
+  @Field()
+  idpService: string;
 
-    @Field({ nullable: true })
-    timestamp: Date;
+  @Field()
+  idpId: string;
 
+  @Field(() => [String])
+  roles: string[];
 
+  @Field({ nullable: true })
+  timestamp: Date;
 
-
-
-    @Field({ nullable: true })
-    isSubscribed?: boolean;
+  @Field({ nullable: true })
+  isSubscribed?: boolean;
 }

@@ -35,27 +35,28 @@ export class AuthService {
         createdDate: new Date(Date.now()),
       };
       const idpUser = await this.IDPService.createUser(data);
+      console.log(idpUser);
       const { password, ...rest } = args;
       const dbUser = {
         ...rest,
-        role: idpUser.role,
-        idpProvider: "Firebase",
+        roles: [idpUser.role],
+        idpService: "Firebase",
         idpId: idpUser.id,
         creationTime: idpUser.creationTime,
       };
       await this.userService.createUser(dbUser);
 
-      await this.mailService.sendMail({
-        data: {
-          to: idpUser.email,
-          subject: "Welcome to Chakii - Fresh Floor Ordering System",
-        },
-        templateName: "registrationConfirmation",
-        variables: {
-          username: idpUser.displayName,
-          companyName: "Chakii",
-        },
-      });
+      // await this.mailService.sendMail({
+      //   data: {
+      //     to: idpUser.email,
+      //     subject: "Welcome to Chakii - Fresh Floor Ordering System",
+      //   },
+      //   templateName: "registrationConfirmation",
+      //   variables: {
+      //     username: idpUser.displayName,
+      //     companyName: "Chakii",
+      //   },
+      // });
       return idpUser;
     } catch (error) {
       throw error;
@@ -139,5 +140,24 @@ export class AuthService {
     } catch (error) {
       throw error;
     }
+  }
+
+  async updateEmail(
+    email: string,
+    request: IUpdateUserRequest,
+  ): Promise<ResponseDTO | null> {
+    try {
+      const user = await this.IDPService.getUserByEmail(email);
+      await this.IDPService.updateUser(user.id, request);
+      const result: ResponseDTO = { msg: "email Updated SuccessFully" };
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getUserByDB(email: string) {
+    const user: any = await this.userService.getUserByEmail(email);
+    return user;
   }
 }

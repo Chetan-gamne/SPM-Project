@@ -1,14 +1,10 @@
 import type { GetServerSideProps, NextPage } from "next";
-import { GetStaticProps, GetStaticPaths } from "next";
-// import { client } from "../../lib/client";
 import { IProduct, SProduct } from "../../lib/types/products";
 import ProductList from "../../components/productList/ProductList";
-import { ICategoryPathsParams } from "../../lib/types/pagePathsParams";
 import client from "../../services/apollo-client";
 import { gql } from "@apollo/client";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { filterOption } from "../../lib/types/filter";
 const PRODUCT_QUERY = gql`
   query ($options: ProductOption!) {
     getProducts(options: $options) {
@@ -36,15 +32,12 @@ const index: NextPage<{
         variables: { options: filterState },
       });
       setProductData(data.getProducts);
-      console.log(data);
     };
     fetchData();
   }, [filterState]);
-  console.log(filterState);
-  console.log(products);
   return (
     <div>
-      <ProductList productList={productsData} />{" "}
+      <ProductList productList={productsData} />
     </div>
   );
 };

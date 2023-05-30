@@ -7,7 +7,6 @@ import { SProduct } from "../../../lib/types/products";
 const index: NextPage<{ product: SProduct }> = ({ product }) => {
   return (
     <div>
-      {/* <h1>Inside Specific Card {id}</h1> */}
       <ProductDetails product={product} />
     </div>
   );
@@ -40,7 +39,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     if (error || !data) {
       return { notFound: true };
     }
-    console.log(data);
     return {
       props: {
         product: data.getProduct,

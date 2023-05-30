@@ -15,6 +15,7 @@ const meQuery = gql`
       uid
       email_verified
       phone_number
+      dbID
     }
   }
 `;
@@ -35,13 +36,14 @@ const User = () => {
           dispatch(userInfoActions.userLogin(data));
           setUserLoading(false);
         }
-        console.log(data);
+        console.log("ME: ", data);
       } catch (error) {
         setUserLoading(false);
         if (error instanceof ApolloError && error.graphQLErrors.length > 0) {
           const message = error.graphQLErrors[0].message;
           if (message === "Not Authenticated") {
             dispatch(userInfoActions.userLogout());
+            router.push("/");
           } else {
             console.error(error);
           }
@@ -49,7 +51,7 @@ const User = () => {
       }
     };
     fetchData();
-  }, [dispatch]);
+  }, []);
 
   let condition = userInfo ? <UserAccountBtn /> : <LoginBtn />;
 

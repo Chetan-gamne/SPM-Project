@@ -17,7 +17,7 @@ const UserAccountBtn = () => {
   }
 
   return (
-    <div className="relative rtl:ml-2 ltr:mr-2 z-[100]">
+    <div className="relative rtl:ml-2 ltr:mr-2 z-[100] mr-2">
       <div
         className="flex items-center p-2 cursor-pointer"
         onClick={onIconClickHandler}
@@ -35,10 +35,10 @@ const UserAccountBtn = () => {
         {(state) => {
           return (
             <>
-              <div className="fixed inset-0" onClick={onClose}></div>
+              <div className="fixed  inset-0" onClick={onClose}></div>
               <div
                 ref={nodeRef}
-                className="z-[100] absolute top-full ltr:right-0 rtl:left-0 w-[10rem] p-4 bg-palette-card rounded-lg shadow-lg"
+                className="z-[100] absolute right-0 top-full ltr:right-0 rtl:left-0 w-[10rem] p-4 bg-palette-card rounded-lg shadow-lg"
               >
                 <UserAccountBox onClose={onClose} />
               </div>

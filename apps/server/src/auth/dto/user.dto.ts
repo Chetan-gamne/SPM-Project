@@ -16,4 +16,7 @@ export class UserDto {
 
   @Field({ nullable: true })
   phone_number?: string;
+
+  @Field()
+  dbID: string;
 }

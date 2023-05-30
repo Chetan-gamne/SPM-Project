@@ -28,12 +28,12 @@ export class GrainsService {
   }
 
   async update(id: string, updateGrainInput: UpdateGrainInput): Promise<Grain> {
-    const user = await this.DBService.updateById(
+    const grain = await this.DBService.updateById(
       id,
       updateGrainInput,
       this.collection,
     );
-    return user;
+    return grain;
   }
 
   async remove(id: string) {

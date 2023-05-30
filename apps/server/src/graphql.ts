@@ -21,6 +21,27 @@ export class CreateUserInput {
     phone: string;
 }
 
+export class CreateUserDBInput {
+    name: string;
+    email: string;
+    age?: Nullable<number>;
+    address?: Nullable<string>;
+    phone: string;
+    location?: Nullable<string>;
+    idpService: string;
+    idpId: string;
+    roles: string[];
+    timestamp?: Nullable<DateTime>;
+}
+
+export class UpdateUserInput {
+    name?: Nullable<string>;
+    email?: Nullable<string>;
+    phone?: Nullable<string>;
+    age?: Nullable<number>;
+    isSubscribed?: Nullable<boolean>;
+}
+
 export class CreateProductInput {
     name: string;
     description?: Nullable<string>;
@@ -96,10 +117,26 @@ export class UserDto {
     uid: string;
     email_verified: boolean;
     phone_number?: Nullable<string>;
+    dbID: string;
 }
 
 export class ResponseDTO {
     msg?: Nullable<string>;
+}
+
+export class User {
+    _id: string;
+    name: string;
+    email: string;
+    age?: Nullable<number>;
+    address?: Nullable<string>;
+    phone: string;
+    location: string;
+    idpService: string;
+    idpId: string;
+    roles: string[];
+    timestamp?: Nullable<DateTime>;
+    isSubscribed?: Nullable<boolean>;
 }
 
 export class Ingredient {
@@ -142,6 +179,12 @@ export class Grain {
 export abstract class IQuery {
     abstract me(): UserDto | Promise<UserDto>;
 
+    abstract user(id: string): Nullable<User> | Promise<Nullable<User>>;
+
+    abstract users(): Nullable<User>[] | Promise<Nullable<User>[]>;
+
+    abstract getUserByEmail(email: string): Nullable<User> | Promise<Nullable<User>>;
+
     abstract getProducts(options: ProductOption): Product[] | Promise<Product[]>;
 
     abstract getProduct(id: string): Product | Promise<Product>;
@@ -164,6 +207,14 @@ export abstract class IMutation {
 
     abstract resetPassword(password: string): ResponseDTO | Promise<ResponseDTO>;
 
+    abstract updateEmail(email: string): ResponseDTO | Promise<ResponseDTO>;
+
+    abstract createUser(createUserData: CreateUserDBInput): User | Promise<User>;
+
+    abstract updateUser(id: string, updateUserData: UpdateUserInput): User | Promise<User>;
+
+    abstract deleteUser(id: string): User | Promise<User>;
+
     abstract createProduct(create: CreateProductInput): Product | Promise<Product>;
 
     abstract updateProduct(update: UpdateProductInput): Product | Promise<Product>;
@@ -183,4 +234,5 @@ export abstract class IMutation {
     abstract removeGrain(id: string): Grain | Promise<Grain>;
 }
 
+export type DateTime = any;
 type Nullable<T> = T | null;

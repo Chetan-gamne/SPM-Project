@@ -29,7 +29,7 @@ export class AuthController {
       });
       res.status(200).json({ msg: "Successfully login" });
     } catch (error) {
-      res.send(400).json({ msg: "Login Failed" });
+      res.status(400).json({ msg: "Login Failed" });
     }
   }
 

@@ -8,6 +8,8 @@ import { useRouter } from "next/router";
 import { IoLogOutOutline } from "react-icons/io5";
 import jsCookie from "js-cookie";
 import { logout } from "../../../services/firebase";
+import { BsCartCheck } from "react-icons/bs";
+import { RiAccountCircleLine } from "react-icons/ri";
 interface Props {
   onClose: () => void;
 }
@@ -33,6 +35,19 @@ const UserAccountBox: React.FC<Props> = ({ onClose }) => {
     <div>
       <ul>
         <li className="my-1 py-1" onClick={onClose}>
+          <Link href={"/account"}>
+            <a className="flex items-center hover:text-palette-primary">
+              <RiAccountCircleLine
+                style={{
+                  fontSize: "1.2rem",
+                  width: "1.8rem",
+                }}
+              />
+              <span className="font-normal rtl:mr-1 ltr:ml-1">Account</span>
+            </a>
+          </Link>
+        </li>
+        <li className="my-1 py-1" onClick={onClose}>
           <Link href={"/favorite"}>
             <a className="flex items-center hover:text-palette-primary">
               <AiOutlineHeart
@@ -44,6 +59,19 @@ const UserAccountBox: React.FC<Props> = ({ onClose }) => {
               <span className="font-normal rtl:mr-1 ltr:ml-1">
                 {t.favorites}
               </span>
+            </a>
+          </Link>
+        </li>
+        <li className="my-1 py-1" onClick={onClose}>
+          <Link href={"/orders"}>
+            <a className="flex items-center hover:text-palette-primary">
+              <BsCartCheck
+                style={{
+                  fontSize: "1.2rem",
+                  width: "1.8rem",
+                }}
+              />
+              <span className="font-normal rtl:mr-1 ltr:ml-1">Orders</span>
             </a>
           </Link>
         </li>

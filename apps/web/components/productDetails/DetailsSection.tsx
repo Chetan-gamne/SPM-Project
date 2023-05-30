@@ -1,12 +1,28 @@
-import React from "react";
+import React, { useEffect } from "react";
 import StarRatingComponent from "react-star-rating-component";
 import { useLanguage } from "../../hooks/useLanguage";
-import { IProduct } from "../../lib/types/products";
 import CallToAction from "./CallToAction";
+import client from "../../services/apollo-client";
+import { gql } from "@apollo/client";
 
 interface Props {
   product: any;
 }
+
+const GrainQuery = gql`
+  query ($option: string!) {
+    grain(id: $option) {
+      _id
+      name
+      description
+      type
+      price
+      nutrition
+      imgUrl
+    }
+  }
+`;
+
 const DetailsSection: React.FC<Props> = ({ product }) => {
   const { t } = useLanguage();
 

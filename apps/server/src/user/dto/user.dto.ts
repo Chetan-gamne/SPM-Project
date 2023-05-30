@@ -1,10 +1,11 @@
 export interface User {
   _id: string;
-  //   name: string;
+  name: string;
   email: string;
-  //   address: string;
+  address: string;
   phone: string;
-  //   Location: string;
+  location: string;
+  age: number;
   roles: string[];
   idpService: string;
   idpId: string;

@@ -7,6 +7,10 @@ import SearchBar from "./SearchBar";
 import CartIcon from "../cart/CartIcon";
 import Language from "./language/Language";
 
+const LocationBox = dynamic(() => import("./location"), {
+  ssr: false,
+});
+
 const UserBox = dynamic(() => import("./user"), {
   ssr: false,
 });
@@ -25,19 +29,20 @@ const index = () => {
           </div>
           <Settings /> {/* 👈settings: md:hidden */}
           <div className="hidden md:flex md:items-center md:justify-between">
-            <Language />
-            <Theme />
+            {/* <Language /> */}
+            {/* <Theme /> */}
           </div>
         </div>
         <hr className="md:hidden" />
-        <div className="mb-2 mt-4 md:mt-0 flex  items-center md:order-1">
-          <div className="hidden md:block">
+        <div className="mb-2 mt-4 md:mt-0 flex justify-between  items-center md:order-1">
+          <div className="hidden md:block md:pr-3">
             <Logo />
           </div>
           <div className="flex-grow">
             <SearchBar />
           </div>
-          <div className="ltr:ml-2 rtl:mr-2 sm:ltr:ml-4 sm:rtl:mr-4 flex items-center justify-between ">
+          <div className="ltr:ml-2 rtl:mr-2 sm:ltr:ml-4 sm:rtl:mr-4 flex items-center justify-between">
+            <LocationBox />
             <UserBox />
             <CartIcon />
           </div>

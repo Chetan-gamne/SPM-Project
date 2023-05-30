@@ -9,6 +9,7 @@ import { gbpCurrencyFormat } from "../../utilities/currencyFormat";
 import CartItem from "./CartItem";
 import { useExchangeRateGBPToIRR } from "../../hooks/useExchangeRateGBPToIRR";
 import { IUserInfoRootState } from "../../lib/types/user";
+import { BsCurrencyRupee } from "react-icons/bs";
 
 const CartBox = () => {
   const { t, locale } = useLanguage();
@@ -35,7 +36,7 @@ const CartBox = () => {
   const irPrice = useExchangeRateGBPToIRR(cartTotalAmount);
 
   return (
-    <div className="hidden lg:flex flex-col absolute top-full rtl:left-0 ltr:right-0 min-h-[15rem] max-h-[25rem] w-[20rem] bg-palette-card z-[110] shadow-md rounded-lg overflow-auto">
+    <div className="hidden lg:flex flex-col absolute right-0 top-full rtl:left-0 ltr:right-0 min-h-[15rem] max-h-[25rem] w-[20rem] bg-palette-card z-[110] shadow-md rounded-lg overflow-auto">
       <div className="relative">
         <header className="flex items-center justify-between sticky top-0 left-0 right-0 text-sm font-normal z-10 bg-palette-card p-2">
           <span>
@@ -54,7 +55,7 @@ const CartBox = () => {
         <div>
           <>
             {cartItems.length ? (
-              cartItems.map((item) => {
+              cartItems?.map((item) => {
                 return <CartItem key={item._id} product={item} />;
               })
             ) : (
@@ -68,9 +69,10 @@ const CartBox = () => {
           <div className="flex items-center sticky bottom-0 left-0 right-0 bg-palette-card font-normal py-3 px-4">
             <div className="flex flex-col flex-grow ltr:mr-2 rtl:ml-2">
               <p className="text-sm">{t.payableAmount}</p>
-              <p className="self-end text-sm font-bold">
+              <p className=" text-sm font-bold flex justify-start">
+                <BsCurrencyRupee />
                 {locale === "en"
-                  ? `£ ${gbpCurrencyFormat(cartTotalAmount)}`
+                  ? `${gbpCurrencyFormat(cartTotalAmount)}`
                   : `تومان ${irPrice}`}
               </p>
             </div>

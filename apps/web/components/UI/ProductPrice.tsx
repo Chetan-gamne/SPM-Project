@@ -4,6 +4,7 @@ import { useLanguage } from "../../hooks/useLanguage";
 import { calculateDiscountPercentage } from "../../utilities/calculateDiscountPercentage";
 import { changeNumbersFormatEnToFa } from "../../utilities/changeNumbersFormatEnToFa";
 import { gbpCurrencyFormat } from "../../utilities/currencyFormat";
+import { BsCurrencyRupee } from "react-icons/bs";
 
 interface Props {
   price: number;
@@ -46,7 +47,9 @@ const ProductPrice: React.FC<Props> = ({
               <del
                 className={`text-rose-800 dark:text-rose-200 md:text-sm ${textDiscountPriceSize}`}
               >
-                <sup className="mr-1">{locale === "en" ? "£" : ""}</sup>
+                <sup className="mr-1">
+                  {locale === "en" ? <BsCurrencyRupee /> : ""}
+                </sup>
                 <sub className="ml-1 text-[10px]">
                   {locale === "fa" ? "تومان" : ""}
                 </sub>
@@ -55,7 +58,7 @@ const ProductPrice: React.FC<Props> = ({
               <ins
                 className={`font-bold self-end no-underline mt-1 ${textMainPriceSize}`}
               >
-                <sup className="mr-1">{locale === "en" ? "£" : ""}</sup>
+                <sup className="mr-1">{locale === "en" ? "" : ""}</sup>
                 <sub className="ml-1 text-[10px]">
                   {locale === "fa" ? "تومان" : ""}
                 </sub>
@@ -79,7 +82,9 @@ const ProductPrice: React.FC<Props> = ({
               className={`flex items-center ${textMainPriceSize} font-bold no-underline`}
               style={{ flexDirection }}
             >
-              <sup className="mr-1 rtl:block">{locale === "en" ? "£" : ""}</sup>
+              <sup className="mr-1 rtl:block">
+                {locale === "en" ? <BsCurrencyRupee /> : ""}
+              </sup>
               <span>
                 {locale === "en" ? gbpCurrencyFormat(price) : irPrice}
               </span>

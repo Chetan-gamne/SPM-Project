@@ -10,15 +10,18 @@ const Sort: React.FC<Props> = ({}) => {
   const [currentDropDown, setDropDown] = useState("");
   const [filterOpen, setFilterOpen] = useState(false);
   const filterRef = useRef(null);
+  const onClose = () => {
+    setFilterOpen(false);
+  };
   useEffect(() => {
     const eventHandler = (event: MouseEvent) => {
       if (filterRef.current && !filterRef?.current?.contains(event.target)) {
         setFilterOpen(false);
       }
     };
-    document.addEventListener("click", eventHandler);
+    // document.addEventListener("click", eventHandler);
     return () => {
-      document.removeEventListener("click", eventHandler);
+      // document.removeEventListener("click", eventHandler);
     };
   }, []);
 
@@ -29,7 +32,7 @@ const Sort: React.FC<Props> = ({}) => {
         ref={filterRef}
       >
         <div
-          className="flex justify-between items-center p-1 rounded-md bg-blue-400 text-white border-none"
+          className="flex justify-between items-center p-1 rounded-md bg-[#A71B4A] text-white border-none"
           onClick={() => setFilterOpen(!filterOpen)}
         >
           <p className="px-2">Filter by </p>
@@ -47,7 +50,8 @@ const Sort: React.FC<Props> = ({}) => {
           </svg>
         </div>
         <div className={`${filterOpen ? "absolute" : "hidden"} top-9 z-40`}>
-          <div className="px-4 py-3 bg-slate-100 shadow-lg border-2 border-gray-200">
+          <div className="fixed inset-0" onClick={onClose}></div>
+          <div className="z-[1000] px-4 py-3 bg-slate-100 shadow-lg border-2 border-gray-200">
             <div className={`flex justify-end flex-col items-center`}>
               {Object.keys(filters).map((filter, index) => {
                 return (

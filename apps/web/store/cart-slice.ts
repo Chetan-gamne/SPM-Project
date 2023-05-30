@@ -27,7 +27,9 @@ const cartSlice = createSlice({
     ) {
       const newItem = action.payload.product;
 
-      const existingItem = state.items.find((item) => item._id === newItem._id);
+      const existingItem = state.items?.find(
+        (item) => item._id === newItem._id
+      );
 
       state.totalQuantity = state.totalQuantity + action.payload.quantity;
 
@@ -47,7 +49,7 @@ const cartSlice = createSlice({
             ? calculateDiscountPercentage(newItem.price, newItem.discount)
             : newItem.price) * action.payload.quantity;
 
-        state.items.push({
+        state.items?.push({
           ...newItem,
           quantity: action.payload.quantity,
           totalPrice,
@@ -66,7 +68,7 @@ const cartSlice = createSlice({
         existingItem.totalPrice = totalPrice;
       }
       setItemFunc(
-        state.items.map((item) => item),
+        state.items?.map((item) => item),
         state.totalAmount,
         state.totalQuantity
       );
@@ -77,7 +79,9 @@ const cartSlice = createSlice({
       action: PayloadAction<string> //_id as payload
     ) {
       const productSlug = action.payload;
-      const existingItem = state.items.find((item) => item._id === productSlug);
+      const existingItem = state.items?.find(
+        (item) => item._id === productSlug
+      );
 
       state.totalQuantity--;
 
@@ -91,7 +95,7 @@ const cartSlice = createSlice({
           : existingItem?.price)!;
 
       if (existingItem?.quantity === 1) {
-        state.items = state.items.filter((item) => item._id !== productSlug);
+        state.items = state.items?.filter((item) => item._id !== productSlug);
       } else {
         existingItem!.quantity--;
         existingItem!.totalPrice =
@@ -104,7 +108,7 @@ const cartSlice = createSlice({
             : existingItem?.price)!;
       }
       setItemFunc(
-        state.items.map((item) => item),
+        state.items?.map((item) => item),
         state.totalAmount,
         state.totalQuantity
       );
