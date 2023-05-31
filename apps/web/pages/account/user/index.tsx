@@ -23,6 +23,7 @@ const userQuery = gql`
 
 const index = () => {
   const [user, setUser] = useState({});
+  const [modelOn, setModelOn] = useState(false);
 
   const userInfo = useSelector((state: IUserInfoRootState | any) => {
     return state.userInfo.userInformation;
@@ -47,7 +48,7 @@ const index = () => {
       }
     };
     fetchData();
-  }, [userInfo]);
+  }, [userInfo, user]);
   if (!userInfo) {
     return <div>Loading...</div>;
   }
@@ -63,9 +64,9 @@ const index = () => {
             <p className="text-sm">{user?.name}</p>
           </div>
           <div>
-            <Modal>
+            <Modal modelOn={modelOn} setModelOn={setModelOn}>
               <h1 className="">Edit</h1>
-              <UserChange />
+              <UserChange setUser={setUser} setModelOn={setModelOn} />
             </Modal>
           </div>
         </div>
@@ -75,10 +76,10 @@ const index = () => {
             <p className="text-sm">{user?.email}</p>
           </div>
           <div>
-            <Modal>
+            {/* <Modal modelOn={modelOn} setModelOn={setModelOn}>
               <h1>Edit</h1>
-              <UserEmailChange />
-            </Modal>
+              <UserEmailChange setUser={setUser} setModelOn={setModelOn}/>
+            </Modal> */}
           </div>
         </div>
         <div className="flex justify-between items-center p-3 border-2 border-gray-200">

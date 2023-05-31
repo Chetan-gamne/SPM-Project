@@ -11,6 +11,7 @@ const USER_NAME_CHANGE = gql`
       _id
       email
       name
+      phone
     }
   }
 `;
@@ -23,9 +24,8 @@ const GET_USER = gql`
   }
 `;
 
-const UserChange = () => {
+const UserChange: React.FC<any> = ({ setUser, setModelOn }) => {
   const [newName, setNewName] = useState("");
-  const [userId, setUserId] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
 
@@ -33,22 +33,6 @@ const UserChange = () => {
     return state.userInfo.userInformation;
   });
   const [changeUserName] = useMutation(USER_NAME_CHANGE);
-  useEffect(() => {
-    const fetchId = async () => {
-      try {
-        const { data } = await client.query({
-          query: GET_USER,
-          variables: { email: userInfo?.me?.email },
-        });
-        const id = data.getUserByEmail._id;
-        setUserId(id);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchId();
-  }, []);
   const updateUserName = async () => {
     try {
       if (!newName) {
@@ -56,9 +40,11 @@ const UserChange = () => {
         return;
       }
       const { data } = await changeUserName({
-        variables: { id: userId, updateUserData: { name: newName } },
+        variables: { id: userInfo.me?.dbID, updateUserData: { name: newName } },
       });
-      router.reload();
+      console.log(data);
+      setUser(data);
+      setModelOn(false);
     } catch (error) {
       console.log(error);
     }

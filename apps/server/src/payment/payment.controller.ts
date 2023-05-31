@@ -11,11 +11,11 @@ export class PaymentController {
   @Post("payment-intent")
   async createPaymentIntent(
     @Body("amount") amount: number,
-    @Body("orderData") items: any,
+    @Body("orderData") orderData: any,
   ) {
     const clientSecret = await this.PaymentService.createPaymentIntent(
       amount,
-      items,
+      orderData,
     );
     return { clientSecret };
   }

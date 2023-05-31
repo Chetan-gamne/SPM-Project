@@ -9,6 +9,7 @@ import { StripeCardElement } from "@stripe/stripe-js";
 import { toast } from "react-toastify";
 import { ClipLoader } from "react-spinners";
 import { BsCurrencyRupee } from "react-icons/bs";
+import Address from "../Address";
 const CARD_OPTIONS = {
   iconStyle: "solid" as const,
   hidePostalCode: true,
@@ -50,9 +51,34 @@ const Checkout = () => {
   );
 
   const items = useSelector((state: ICartRootState) => state.cart.items);
+  const [address, setAddress] = useState({
+    country: "",
+    uname: "",
+    phoneNumber: "",
+    postcode: "",
+    flatNumber: "",
+    village: "",
+    landMark: "",
+    city: "",
+    state: "",
+  });
+
+  function isObjectFilled(obj: {}) {
+    for (let key in obj) {
+      if (
+        obj.hasOwnProperty(key) &&
+        (obj[key] === "" || obj[key] === null || obj[key] === undefined)
+      ) {
+        return false;
+      }
+    }
+    return true;
+  }
 
   const handleOrder = async () => {
     setLoader(true);
+    const isAddressFilled = isObjectFilled(address);
+
     if (!userInfo) {
       setLoader(false);
       toast.warning("Make Sure to login before to checkout", {
@@ -60,6 +86,14 @@ const Checkout = () => {
         autoClose: 4000,
       });
       router.push("/login");
+      return;
+    }
+    if (!isAddressFilled) {
+      toast.warning("Make Sure To Enter All Address Details!!", {
+        theme: "light",
+        autoClose: 4000,
+      });
+      setLoader(false);
       return;
     }
     let productData = items.map((product) => {
@@ -78,7 +112,7 @@ const Checkout = () => {
       email: userInfo.me.email,
       phone: userInfo.me?.phone,
       date: Date.now(),
-      // address: address,
+      address: address,
     };
     try {
       console.log(orderData);
@@ -104,6 +138,9 @@ const Checkout = () => {
           card: cardElement,
         });
       }
+      if (paymentMethod?.error) {
+        throw new Error("Incomplete Number");
+      }
       console.log(paymentMethod);
       const result = await stripe.confirmCardPayment(
         data.clientSecret.client_secret,
@@ -127,6 +164,7 @@ const Checkout = () => {
       dispatch(cartActions.clearCart());
       alert("Payment Successfult! Your Order Will Be Delivered Soon!");
       console.log(op);
+      router.push("/orders");
     } catch (error) {
       setLoader(false);
       alert("Payment Not Successfult! Make Sure You Enter Valid Card Number");
@@ -136,37 +174,35 @@ const Checkout = () => {
   };
 
   return (
-    <div className="max-w-2xl m-auto bg-white px-3 py-2 rounded-md shadow-md">
-      <h1 className="text-center text-2xl font-bold">Checkout</h1>
-      <div className="flex justify-between mt-5 mb-2">
-        <p className="font-semibold text-xl">Shipping Address</p>
-        <pre>
-          CHETAN GAMNE Near datta mandir morwadi,{""} <br />
-          cidco,nashik-422009 Morwadi <br />
-          NASHIK, MAHARASHTRA 422009
-        </pre>
-      </div>
-      <hr />
-      <div className="mt-5">
-        <h1 className="text-xl font-semibold">Payment</h1>
-      </div>
-      <div className="my-4">
-        <CardElement options={CARD_OPTIONS} />
-      </div>
-      <div className="flex justify-between items-center mt-8">
-        <div className="flex flex-col">
-          <p>Total Amount:</p>
-          <div className="flex items-center">
-            <BsCurrencyRupee />
-            <p>{totalAmount}</p>
-          </div>
+    <div className="max-w-5xl m-auto bg-white px-3 py-2 rounded-md shadow-md">
+      <h1 className="text-center text-3xl font-bold mb-5">Checkout</h1>
+      <div className="flex flex-col md:flex-row justify-between ">
+        <div className="flex justify-between  mb-2">
+          <Address address={address} setAddress={setAddress} />
         </div>
-        <div className="flex-[0.5]">
-          <p className="w-full" onClick={handleOrder}>
-            <a className="w-full block bg-palette-primary py-3 rounded-lg text-palette-side text-center cursor-pointer  shadow-lg">
-              {loader ? <ClipLoader color="white" size={25} /> : "Order"}
-            </a>
-          </p>
+        <div className="h-fit flex-grow sticky bottom-0 left-0 right-0 md:top-36 shadow-lg bg-palette-card border-2 rounded-lg py-4 xl:py-12 px-4 xl:px-8 -mx-[1rem] md:mx-4 xl:mx-8 mt-2 w-[100vw] md:w-auto  md:min-w-[300px] md:max-w-[400px]">
+          <div className="mt-5">
+            <h1 className="text-xl font-semibold">Payment</h1>
+          </div>
+          <div className="my-4">
+            <CardElement options={CARD_OPTIONS} />
+          </div>
+          <div className="flex justify-between items-center mt-8">
+            <div className="flex flex-col">
+              <p>Total Amount:</p>
+              <div className="flex items-center">
+                <BsCurrencyRupee />
+                <p>{totalAmount}</p>
+              </div>
+            </div>
+            <div className="flex-[0.5]">
+              <p className="w-full" onClick={handleOrder}>
+                <a className="w-full block bg-palette-primary py-3 rounded-lg text-palette-side text-center cursor-pointer  shadow-lg">
+                  {loader ? <ClipLoader color="white" size={25} /> : "Order"}
+                </a>
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

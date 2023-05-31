@@ -2,13 +2,22 @@ import React, { useEffect, useState } from "react";
 import { GrLocation } from "react-icons/gr";
 import Modal from "../../Modal/index";
 import AutoFill from "./AutoFIll";
+import { useSelector } from "react-redux";
+import { IUserInfoRootState } from "../../../lib/types/user";
 const Child1 = () => {
+  const userInfo = useSelector((state: IUserInfoRootState | any) => {
+    return state.userInfo.userInformation;
+  });
+  console.log(userInfo);
   return (
     <div className="flex cursor-pointer items-center mx-2 hover:border-2 border-black rounded-md p-2">
       <GrLocation size={25} />
       <div className="md:flex flex-col text-left ml-2 text-[0.7rem] hidden">
         <p>
-          Deliver To <span className="font-extrabold">Chetan</span>
+          Deliver To{" "}
+          <span className="font-extrabold">
+            {userInfo?.me?.name || "Alien"}
+          </span>
         </p>
         <p>Nashik 422009</p>
       </div>
@@ -19,6 +28,7 @@ const Child2 = () => {
   const [location, setLocation] = useState<any>(null);
   const [error, setError] = useState<any>(null);
   const [address, setAddress] = useState<any>(null);
+
   useEffect(() => {
     if (!navigator.geolocation) {
       setError("Geolocation is not supported by your browser");
@@ -64,9 +74,10 @@ const Child2 = () => {
   );
 };
 const Location = () => {
+  const [modelOn, setModelOn] = useState(false);
   return (
     <div>
-      <Modal>
+      <Modal modelOn={modelOn} setModelOn={setModelOn}>
         <Child1 />
         <Child2 />
       </Modal>

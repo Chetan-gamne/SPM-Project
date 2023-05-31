@@ -11,6 +11,7 @@ import { useRouter } from "next/router";
 const meQuery = gql`
   query {
     me {
+      name
       email
       uid
       email_verified

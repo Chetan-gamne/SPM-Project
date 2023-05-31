@@ -41,6 +41,7 @@ export class PaymentService {
         orderDelivered: false,
       },
       userId: metadata.user_id,
+      address: metadata?.address,
     };
     // if (paymentIntent && paymentIntent.status === 'succeeded') {
     //   // Handle successful payment here

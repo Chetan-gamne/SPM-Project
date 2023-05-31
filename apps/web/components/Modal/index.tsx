@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 
-export default function Modal({ children }) {
-  const [isOpen, setIsOpen] = useState(false);
+export default function Modal({ children, modelOn, setModelOn }) {
+  // const [isOpen, setIsOpen] = useState(false);
   const modalRef = useRef<HTMLDivElement>();
 
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (modalRef.current && !modalRef.current.contains(event.target)) {
-        setIsOpen(false);
+        setModelOn(false);
       }
     };
 
@@ -15,13 +15,14 @@ export default function Modal({ children }) {
 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
+      setModelOn(false);
     };
   }, [modalRef]);
 
   return (
     <>
-      <button onClick={() => setIsOpen(true)}>{children[0]}</button>
-      {isOpen && (
+      <button onClick={() => setModelOn(true)}>{children[0]}</button>
+      {modelOn && (
         <div className="fixed z-10 inset-0 overflow-y-auto">
           <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
             <div
