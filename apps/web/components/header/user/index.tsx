@@ -43,10 +43,10 @@ const User = () => {
           const message = error.graphQLErrors[0].message;
           if (message === "Not Authenticated") {
             dispatch(userInfoActions.userLogout());
-            router.push("/");
           } else {
             console.error(error);
           }
+          router.push("/");
         }
       }
     };
